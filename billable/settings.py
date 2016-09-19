@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -41,10 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #django apps
     'rest_framework',
+    'crispy_forms',
     #developer created apps
     'accounts'
 
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,7 +80,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'billable.wsgi.application'
 
+# Email settings
 
+try:
+    EMAIL_USE_TLS = EMAIL_USE_TLS
+    EMAIL_HOST = EMAIL_HOST    
+    EMAIL_HOST_USER = EMAIL_HOST_USER 
+    EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD 
+    EMAIL_PORT = EMAIL_PORT
+except:
+pass
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -128,3 +140,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "staticfiles")
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, "static"),
+    )
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, "staticfiles", "media")

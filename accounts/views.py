@@ -20,6 +20,8 @@ class UserProfileDetailView(DetailView):
 		return user
 
 
+def base_tester(request):
+	return render(request, template_name="base.html")
 class UserProfileFormView(UpdateView):
 	model = UserProfile
 	form_class = UserProfileForm

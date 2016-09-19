@@ -13,15 +13,26 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
+from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.static import static
+
 from django.contrib import admin
 
 from accounts.views import UserProfileFormView as user_edit
 from accounts.views import UserProfileDetailView as user_profile
+from accounts.views import base_tester
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', base_tester, name='base'),
     url(r'^users/(?P<slug>[\w-]+)/$', user_profile.as_view(), name="profile"),
     url(r'^edit-profile/$', user_edit.as_view(), name='edit_profile'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
