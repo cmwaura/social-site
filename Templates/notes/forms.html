@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{{form.media}}
+<style>
+.note-editor.note-frame .panel .panel-default {
+	width: 0 !important;
+}
+
+.form-control {
+	
+	padding: 0px 0px !important;
+
+}
+.form-frame-center {
+	display:block;
+    width: 65%;
+	float:none;
+	top:50%;
+	left :50%;
+	margin-right:-50%;
+	position: absolute;
+	transform: translate(-50%, -30%)
+}
+
+
+</style>
+<div class="container">
+
+	<div class="col-md-9 form-frame-center">
+		<h2> Submission: </h2></br>
+	<!-- <div style="width: 0px;" class="note-frame panel panel-default" -->
+		<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+				{{form|crispy}}
+				<button type="submit" name="action">
+					Submit
+				</button>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

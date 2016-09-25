@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load static %}
 
 {% block content %}
-<p class='text-align-center lead'>You have successfully logged out.</p><p class='text-align-center lead'><a href="{% url 'auth_login' %}">Login</a></p></p>
+<style>
+
+</style>
+
+<p class='text-align-center lead'>You have successfully logged out.</p>
+<p class='text-align-center lead'><a href="{% url 'auth_login' %}"><button class="btn btn-primary">Login</button></a></p></p>
 {% endblock %}

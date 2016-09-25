@@ -1,0 +1,7 @@
+html, body {
+    margin: 0;
+}
+.note-editor.note-frame {
+	border: 1px solid #a9a9a9;
+	height: 300px !important;
+}

@@ -3,25 +3,25 @@ from django import forms
 from django.utils.text import slugify
 from .models import NoteBook
 from django.core.files.images import get_image_dimensions
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
-class NotebookForm(forms.ModelForm):
-	text = forms.CharField(
-		label="text (required)",
-		widget=forms.Textarea(attrs={"size":40}),
-		required=True),
+class NoteBookFormBase(forms.ModelForm):
 
 	class Meta:
-		model = Articles
-		fields = ['title', 'text', 'tags']
-		exclude = ("user",)
+		model = NoteBook
+		fields = ['title', 'text', 'banner', 'tags', 'published']
+		
+		widgets ={
+		"text": SummernoteWidget()
+		}
 
 	def clean_title(self):
 		title = self.cleaned_data.get("title")
 		return title
 
-	def clean_content(self):
+	def clean_text(self):
 		text = self.cleaned_data.get("text")
-		return content
+		return text
 
 	def clean_picture(self):
 		banner = self.cleaned_data.get("banner")
@@ -52,3 +52,21 @@ class NotebookForm(forms.ModelForm):
 	def clean_tags(self):
 		tags = self.cleaned_data.get("tags")
 		return tags
+
+
+class NotebookForm(NoteBookFormBase):
+
+	
+	def save(self, commit=True):		
+		note = super(NotebookForm, self).save(commit=False)
+		note.slug = slugify(note.title)
+		# article.submitter = self.request.user
+		if commit:
+			note.save()
+
+		return note
+
+class NotebookUpdateForm(NoteBookFormBase):
+
+	class Meta(NoteBookFormBase.Meta):
+		exclude = ("tags", "published")

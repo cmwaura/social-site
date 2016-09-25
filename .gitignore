@@ -1,4 +1,8 @@
 *.pyc
+*.jpg
+*.png
+*.jpeg
+
 db.sqlite3
 __pycache__
 migrations
@@ -6,3 +10,4 @@ migrations
 #python files
 
 config.py
+todo.txt

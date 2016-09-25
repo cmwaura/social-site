@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<form  action="" method="POST">{% csrf_token %}
+	<p> are you sure you want to delete </p>
+	<input type="Submit" name="Confirm"/>
+</form>
+
+{% endblock %}

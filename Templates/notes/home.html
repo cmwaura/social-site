@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+.banner {
+	padding: 10em 0 0;
+	text-align: center;
+	display: block;
+	margin: 0 auto;
+	min-height: 400px;
+	width: 1150px;
+	margin-top:10px;
+}
+.tc-ch .expansion-content {
+    display: none;
+    padding : 5px;
+    
+}
+.tc-ch .expansion {
+	background-color: yellow;
+	cursor:pointer;
+}
+</style>
+<div class="header">
+
+{% include 'navbar-tabs.html' %}
+<!--head-bottom-->
+</div>	
+
+<!-- banner -->
+<div class="banner">
+	<div class="container">
+		<h2>Contrary to popular belief, Lorem Ipsum simply</h2>
+		<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+		<a href="#">READ ARTICLE</a>
+	</div>
+</div>
+<!-- technology -->
+<div class="technology">
+	<div class="container">
+		<div class="col-md-9 technology-left">
+		<div class="tech-no">
+			
+			<div class="clearfix"></div>
+			{% for notes in notebook_list %}
+			<div class="soci">
+				<ul>
+					<li><a href="#" class="facebook-1"> </a></li>
+					<li><a href="#" class="facebook-1 twitter"> </a></li>
+					<li><a href="#" class="facebook-1 chrome"> </a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-envelope"> </i></a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-print"> </i></a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-plus"> </i></a></li>
+				</ul>
+			</div>
+			
+			 <div class="tc-ch">				
+					<div class="tch-img">
+						<a href="singlepage.html"><img src="{% static 'img/1.jpg' %}" class="img-responsive" alt=""/></a>
+					</div>
+					<a class="blog blue" href="singlepage.html">Technology</a>
+					
+					 <div data-item-id="{{notes.id }}" class="expansion"><span> Expand</span></div>
+					<h3><a href="singlepage.html">{{notes.title}}</a></h3>
+						<div class="expansion-content"><p>{{notes.text|safe|truncatewords:30}}</p></div>
+					
+						<div class="blog-poast-info">
+							<ul>
+								<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="#"> {{ notes.submitter }} </a></li>
+								<li><i class="glyphicon glyphicon-calendar"> </i>30-12-2015</li>
+								<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
+								<li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>
+								<li><i class="glyphicon glyphicon-eye-open"> </i>1.128 views</li>
+							</ul>
+						</div>
+			</div>
+			{% endfor %}
+			<!-- technology-top -->
+			</div>
+		</div>
+		<!-- technology-right -->
+		<div class="col-md-3 technology-right">
+				<div class="blo-top1">
+					<div class="tech-btm">
+					<h4>Top stories of the week </h4>
+						<div class="blog-grids">
+							<div class="blog-grid-left">
+								<a href="singlepage.html"><img src="images/6.jpg" class="img-responsive" alt=""/></a>
+							</div>
+							<div class="blog-grid-right">
+								
+								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="blog-grids">
+							<div class="blog-grid-left">
+								<a href="singlepage.html"><img src="images/7.jpg" class="img-responsive" alt=""/></a>
+							</div>
+							<div class="blog-grid-right">
+								
+								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="blog-grids">
+							<div class="blog-grid-left">
+								<a href="singlepage.html"><img src="images/11.jpg" class="img-responsive" alt=""/></a>
+							</div>
+							<div class="blog-grid-right">
+								
+								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="blog-grids">
+							<div class="blog-grid-left">
+								<a href="singlepage.html"><img src="images/9.jpg" class="img-responsive" alt=""/></a>
+							</div>
+							<div class="blog-grid-right">
+								
+								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="blog-grids">
+							<div class="blog-grid-left">
+								<a href="singlepage.html"><img src="images/10.jpg" class="img-responsive" alt=""/></a>
+							</div>
+							<div class="blog-grid-right">
+								
+								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+					</div>
+				</div>
+			
+		</div>
+		<div class="clearfix"></div>
+		<!-- technology-right -->
+		<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+	<script>
+	$(document).ready(function(){
+		$('.expansion').click(function(){
+		 
+		alert(item_id)
+		// $(".expansion").click(function() {
+		// 	var id = $(this).attr('id').split('-')[1];
+		// 	$expansion = $(this).find('#expansion-'+id);
+		// 	$content = $(".expansion-content");
+		// 	$content.slideToggle(500, function(){
+		// 		$expansion.text(function(){
+		// 			return $content.is(":visible")? "Collapse": "Expand";
+		// 		});
+		// 	});
+		// });
+	});
+	</script>
+	</div>
+
+</div>
+<!-- technology -->
+<!-- footer -->
+
+{% endblock %}

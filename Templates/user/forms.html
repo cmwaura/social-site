@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
 	<form action="" method="POST">{% csrf_token %}
 		{{form.as_p}}
 		<button type="submit" name="action">
 		Submit
 		</button>
 	</form>
-</body>
-</html>
+{% endblock %}

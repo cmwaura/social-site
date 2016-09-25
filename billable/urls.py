@@ -23,16 +23,20 @@ from django.contrib import admin
 from accounts.views import UserProfileFormView as user_edit
 from accounts.views import UserProfileDetailView as user_profile
 from accounts.views import base_tester
+from accounts.views import RegistrationActivation as activation_url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', base_tester, name='base'),
     url(r'^users/(?P<slug>[\w-]+)/$', user_profile.as_view(), name="profile"),
-    url(r'^edit-profile/$', user_edit.as_view(), name='edit_profile'),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^edit-profile/$', user_edit.as_view(), name='edit_profile'),    
+    url(r'^summernote/', include('django_summernote.urls')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^notes/', include('notes.urls', namespace='notes')),
+
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

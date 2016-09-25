@@ -42,8 +42,12 @@ INSTALLED_APPS = [
     #django apps
     'rest_framework',
     'crispy_forms',
+    'taggit',
+    'django_summernote',
+    'hitcount',
     #developer created apps
-    'accounts'
+    'accounts',
+   	'notes',
 
 ]
 
@@ -81,7 +85,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'billable.wsgi.application'
 
 # Email settings
-
+from .config import EMAIL_USE_TLS, EMAIL_HOST_USER, EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_PASSWORD 
 try:
     EMAIL_USE_TLS = EMAIL_USE_TLS
     EMAIL_HOST = EMAIL_HOST    
@@ -89,7 +93,7 @@ try:
     EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD 
     EMAIL_PORT = EMAIL_PORT
 except:
-pass
+    pass
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -99,7 +103,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -119,7 +122,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Email Settings
+# Django Registration settings
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
 
 
 # Internationalization
@@ -146,3 +153,26 @@ STATICFILES_DIRS = (
     )
 MEDIA_URL = '/media/' 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "staticfiles", "media")
+
+# hitcount settings
+
+HITCOUNT_KEEP_HIT_ACTIVE = {'minutes': 60}
+HITCOUNT_HITS_PER_IP_LIMIT = 0  # unlimited
+HITCOUNT_EXCLUDE_USER_GROUP = ()  # not used
+HITCOUNT_KEEP_HIT_IN_DATABASE = {'seconds': 10}
+
+#django summer note settings
+SUMMERNOTE_CONFIG = {
+                                                                                 
+    'inplacewidget_external_css': (),                                                                  
+    'inplacewidget_external_js': (),                                                                   
+    'width': '100%',
+    'height': '480',
+
+    # Codemirror as codeview
+    'codemirror': {
+            # Please visit http://summernote.org/examples/#codemirror-as-codeview
+            'theme': 'monokai',
+    },
+
+}

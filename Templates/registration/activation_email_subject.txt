@@ -1,1 +1,1 @@
-Complete Registration for {{ site.name }}
+Registration Pending for {{ site.name }}
