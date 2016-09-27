@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
 html, body{
 	
-	background: #e5e5e5;
+	background: #F1F3FA;
 }
 * {
 
@@ -300,8 +300,8 @@ i.glyphicon.glyphicon-comment {
 .tc-ch {
     background: #fff;
     padding: 2em;
-    margin-bottom: 1em;
-	 position: relative;
+    margin-bottom: 0.25em;
+    position: relative;
 }
 a.blog{
     position: absolute;
@@ -321,8 +321,9 @@ a.blog.orn{
 }
 .tech-no {
     position: absolute;
-    top: -33px;
-    width:95%;
+    top: -35px;
+    width: 101%;
+   
 }
 .technology {
     min-height: 203em;

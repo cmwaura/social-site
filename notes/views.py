@@ -28,12 +28,6 @@ class NoteBookListView(ListView):
 	paginate_by = 25
 	template_name = 'notes/home.html'
 
-	# def get_context_data(self, **kwargs):
-	# 	context = super(NoteBookListView, self).get_context_data(**kwargs)
-	# 	#check if the user is authenticated to view the list
-	# 	if self.request.user.is_authenticated():
-	# 		notes = notes
-
 class NoteBookDetailView(NoteMixinDetailView, DetailView):
 	# model = NoteBook
 	template_name = 'notes/single.html'
@@ -57,9 +51,9 @@ class NoteBookCreateView(NoteBookBaseEditMixin, CreateView):
 	def form_valid(self, form):
 
 		self.object = form.save(commit=False)
-		self.object.title= form.clean_title()cccd 
+		self.object.title= form.clean_title() 
 		self.object.text = form.clean_text()
-		
+		self.objects.tags = form.tags
 		self.object.submitter = self.request.user
 		self.object.save()
 
@@ -89,3 +83,17 @@ class NoteBookDeleteView(DeleteView):
 def thank_you(request):
 	title = "Thank you for your submission"
 	return render(request, context={"title":title}, template_name='notes/thanks.html')
+
+def tag_page(request, tag):
+	'''
+	page where all the information is filtered based on the tag provided
+	'''
+
+	note = NoteBook.objects.filter(tag__name=tag)
+	note = note.order_by("created_on")
+	template_name = 'notes/tags.html'
+	context = {
+		"note":note,
+		"tag":tag,
+	}
+	return render(request, context, template_name)

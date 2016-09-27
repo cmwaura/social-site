@@ -11,3 +11,5 @@ migrations
 
 config.py
 todo.txt
+
+*.min.js

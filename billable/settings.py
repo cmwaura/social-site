@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -45,11 +46,13 @@ INSTALLED_APPS = [
     'taggit',
     'django_summernote',
     'hitcount',
+    'actstream',
     #developer created apps
     'accounts',
    	'notes',
 
 ]
+SITE_ID = 1
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

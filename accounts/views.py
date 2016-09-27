@@ -19,6 +19,7 @@ class UserProfileDetailView(DetailView):
 	model  = get_user_model()
 	slug_field = "username"
 	template_name = 'user/profile.html'
+	
 
 	def get_object(self, queryset=None):
 		user = super(UserProfileDetailView, self).get_object(queryset)
@@ -28,6 +29,7 @@ class UserProfileDetailView(DetailView):
 
 def base_tester(request):
 	return render(request, template_name="base.html")
+
 class UserProfileFormView(UpdateView):
 	model = UserProfile
 	form_class = UserProfileForm
