@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block profile %} class="active"{% endblock %} 
 {% block content %}
 
 {% include 'navbar-tabs.html' %}
@@ -106,6 +106,18 @@
   background: #fff;
   min-height: 460px;
 }
+/* user feeds*/
+.row .feeds {
+	position: relative;
+	padding: 0 0 1em 45px;
+	overflow: hidden;
+	border-top: 1px solid #f1f1f1;
+}
+.glyphicon.glyphicon-ok-circle:hover {
+	color: #ffd700;
+	box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+	cursor: pointer;
+}
 </style>
 <div class="container">
     <div class="row profile">
@@ -162,8 +174,32 @@
 		</div>
 		<div class="col-md-9">
             <div class="profile-activity">
-			   
+			{% for feed in user_feeds %}
+			
+				<p class="row feeds">
+					<span class=" glyphicon {% if feed.verb ==  'created' %}
+						 glyphicon-ok-circle
+						{% elif feed.verb == 'updated' %}
+						glyphicon-cog
+						{% elif feed.verb == 'deleted' %}
+						glyphicon-remove
+						{% else %}
+						glyphicon-ok
+						{% endif %}"></span>
+						{% if feed.action_object.get_absolute_url %}
+
+						<a href="{{feed.action_object.get_absolute_url}}">{{feed.actor}}</a> {{feed.verb}} {{feed.target}}
+						{% else %}
+
+						{{feed.actor}} {{feed.verb}} {{feed.target}}
+						{% endif %}
+					</p>
+			
+			{% endfor %}
             </div>
+            
+           
+          
 		</div>
 	</div>
 </div>

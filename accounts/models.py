@@ -7,6 +7,7 @@ from django.db.models.signals import post_save
 class UserProfile(models.Model):
 
 	user = models.OneToOneField(User, unique=True)
+	picture = models.ImageField(upload_to='media/profileImg', null=True, blank=True)
 	first_name = models.CharField("First Name", max_length=140, null=False, blank=False)
 	last_name = models.CharField("Last Name", max_length=140, null=False, blank=False)
 	job_title = models.CharField("Job title", max_length=140)

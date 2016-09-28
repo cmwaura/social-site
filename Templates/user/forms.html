@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 {% load i18n %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-	<form action="" method="POST">{% csrf_token %}
-		{{form.as_p}}
-		<button type="submit" name="action">
-		Submit
-		</button>
-	</form>
+<div class='row'>
+	<div class='col-sm-6 col-sm-offset-3'>
+		<h2> Update your profile </h2>
+		<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+			{{form|crispy}}
+			<button class='btn btn-block btn-primary' type="submit" name="action">
+			Submit
+			</button>
+		</form>
+	</div>
+</div>
 {% endblock %}
+	

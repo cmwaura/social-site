@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block feeds %} class="active"{% endblock %}
+{% block content %}
+{% include 'navbar-tabs.html' %}
+{% for action in actions %}
+{{action}}
+{% endfor %}
+{{action_1}}
+
+{% endblock %}

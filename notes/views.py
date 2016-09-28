@@ -3,12 +3,17 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
-
 from django.utils import timezone
 
+#third party imports
+
+from actstream import action
+from actstream.models import Action
+from actstream.views import stream
+# project imports
 from .models import NoteBook
 from .forms import NotebookForm, NotebookUpdateForm
-
+from django.contrib.contenttypes.models import ContentType
 from accounts.models import UserProfile
 
 user = get_user_model()
@@ -23,10 +28,26 @@ class NoteMixinDetailView(object):
 		context['notebook_views'] = ["ajax", "detail", "detail-with-count"]
 		return context
 
+class FeedView(ListView):
+	model = Action
+	template_name = 'feeds/feeds.html'
+	queryset = Action.objects.all()
+	context_object_name = 'actions'
+	
+	def get_context_data(self, **kwargs):
+		context = super(FeedView, self).get_context_data(**kwargs)
+		for action in self.queryset:
+			if action.actor == self.request.user:
+				context['action_1'] = action
+		return context
+
+		
+
 class NoteBookListView(ListView):
 	model = NoteBook
 	paginate_by = 25
 	template_name = 'notes/home.html'
+
 
 class NoteBookDetailView(NoteMixinDetailView, DetailView):
 	# model = NoteBook
@@ -52,10 +73,10 @@ class NoteBookCreateView(NoteBookBaseEditMixin, CreateView):
 
 		self.object = form.save(commit=False)
 		self.object.title= form.clean_title() 
-		self.object.text = form.clean_text()
-		self.objects.tags = form.tags
+		self.object.text, self.object.tags = form.clean_text()
 		self.object.submitter = self.request.user
 		self.object.save()
+		action.send(self.request.user, verb='created', target=form.instance)
 
 		return super(NoteBookCreateView, self).form_valid(form)
 
@@ -97,3 +118,5 @@ def tag_page(request, tag):
 		"tag":tag,
 	}
 	return render(request, context, template_name)
+
+

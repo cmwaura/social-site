@@ -1,18 +1,26 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
 from django.views.generic import UpdateView, DetailView
+from django.contrib.auth import get_user_model
+# third party apps
+
 from registration.backends.hmac.views import ActivationView
+from actstream.models import Action
+from actstream import action
+
 
 # app detail imports 
+from notes.views import NoteBookCreateView
 from .models import UserProfile
 from .forms import UserProfileForm
 
 # extra scripts.
 from .utils import generate_new
 
-
+user = get_user_model()
 # Create your views here.
 
 class UserProfileDetailView(DetailView):
@@ -21,9 +29,22 @@ class UserProfileDetailView(DetailView):
 	template_name = 'user/profile.html'
 	
 
+	def get_context_data(self, **kwargs):
+		context_list = []
+		context = super(UserProfileDetailView, self).get_context_data(**kwargs)
+		for action in Action.objects.all():
+			
+			if str(action.actor)== str(self.request.user.username):
+				context_list.append(action)
+				# print (request.user.username)
+		
+		context['user_feeds'] = context_list
+		return context
+		
 	def get_object(self, queryset=None):
 		user = super(UserProfileDetailView, self).get_object(queryset)
 		UserProfile.objects.get_or_create(user=user)
+
 		return user
 
 
@@ -47,9 +68,11 @@ class UserProfileFormView(UpdateView):
 
 		self.object = form.save(commit=False)
 		self.object.user = self.request.user
+		self.object.picture = form.clean_picture()
 		self.object.first_name, self.object.lastname = form.clean_name()
 		self.object.job_title = form.job_title()
 		self.object.save()
+		action.send(self.request.user, verb='updated', target='profile')
 		return HttpResponseRedirect(self.get_success_url())
 
 class RegistrationActivation(ActivationView):

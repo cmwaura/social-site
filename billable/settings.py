@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     #django apps
     'rest_framework',
     'crispy_forms',
@@ -50,13 +51,15 @@ INSTALLED_APPS = [
     #developer created apps
     'accounts',
    	'notes',
-
+    # 'billable.apps.DjangoContribAuthConfig'
 ]
 SITE_ID = 1
 
+
+
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -84,6 +87,9 @@ TEMPLATES = [
     },
 ]
 
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: "/users/%s/" % u.username,
+}
 
 WSGI_APPLICATION = 'billable.wsgi.application'
 
@@ -179,3 +185,12 @@ SUMMERNOTE_CONFIG = {
     },
 
 }
+
+# django activity stream settings
+
+# ACTSTREAM_SETTINGS = {
+#     'MANAGER': 'billable.managers.MyActionManager',
+#     'FETCH_RELATIONS': True,
+#     'USE_JSONFIELD': True,
+    
+# } 
