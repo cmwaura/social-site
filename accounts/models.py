@@ -18,7 +18,6 @@ class UserProfile(models.Model):
 
 
 	def __str__(self): 
-		print (self.user)
 		return "%s profile" %self.user
 
 

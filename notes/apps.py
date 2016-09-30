@@ -1,5 +1,5 @@
-from django.apps import AppConfig
-
+from django.apps import AppConfig,apps
+import accounts
 
 class NotesConfig(AppConfig):
     name = 'notes'
@@ -8,4 +8,5 @@ class NotesConfig(AppConfig):
     	from actstream import registry
 
     	registry.register(self.get_model('NoteBook'))
+    	registry.register(apps.get_model('accounts.UserProfile'))
 

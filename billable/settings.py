@@ -24,6 +24,8 @@ from .config import SECRET_KEY
 
 SECRET_KEY = SECRET_KEY
 
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -48,14 +50,19 @@ INSTALLED_APPS = [
     'django_summernote',
     'hitcount',
     'actstream',
+    'django_comments',
+
+    'postman',
+    'mptt',
     #developer created apps
     'accounts',
    	'notes',
-    # 'billable.apps.DjangoContribAuthConfig'
+    'comments',
 ]
 SITE_ID = 1
 
 
+COMMENTS_APP = 'comments'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
@@ -161,7 +168,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, "static"),
     )
 MEDIA_URL = '/media/' 
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, "staticfiles", "media")
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
 # hitcount settings
 

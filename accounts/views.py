@@ -72,7 +72,7 @@ class UserProfileFormView(UpdateView):
 		self.object.first_name, self.object.lastname = form.clean_name()
 		self.object.job_title = form.job_title()
 		self.object.save()
-		action.send(self.request.user, verb='updated', target='profile')
+		action.send(self.request.user, verb='updated', target=form.instance)
 		return HttpResponseRedirect(self.get_success_url())
 
 class RegistrationActivation(ActivationView):

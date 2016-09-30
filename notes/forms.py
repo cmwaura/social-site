@@ -21,8 +21,9 @@ class NoteBookFormBase(forms.ModelForm):
 
 	def clean_text(self):
 		text = self.cleaned_data.get("text")
-		tags = self.cleaned_data.get("tags")
-		return text, tags
+		
+		return text
+
 
 	def clean_picture(self):
 		banner = self.cleaned_data.get("banner")

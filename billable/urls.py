@@ -26,6 +26,7 @@ from accounts.views import base_tester
 from accounts.views import RegistrationActivation as activation_url
 
 from notes.views import FeedView as feeds
+from notes.views import ActivityStreamDeleteView as stream_delete
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -37,10 +38,12 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^notes/', include('notes.urls', namespace='notes')),
-    url(r'^feeds/', feeds.as_view(), name='feeds'),  
-
+    url(r'^feeds/', feeds.as_view(), name='feeds'),
+    url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),
+    url(r'^comments/', include('django_comments.urls')),
+    url(r'^messages/', include('postman.urls', namespace='postman')),
 ]
-# if settings.DEBUG:
-#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -73,7 +73,8 @@ class NoteBookCreateView(NoteBookBaseEditMixin, CreateView):
 
 		self.object = form.save(commit=False)
 		self.object.title= form.clean_title() 
-		self.object.text, self.object.tags = form.clean_text()
+		self.object.text = form.clean_text()
+		# self.object.tags = form.clean_tags()
 		self.object.submitter = self.request.user
 		self.object.save()
 		action.send(self.request.user, verb='created', target=form.instance)
@@ -120,3 +121,21 @@ def tag_page(request, tag):
 	return render(request, context, template_name)
 
 
+class ActivityStreamDeleteView(DeleteView):
+	model = Action
+	success_url=reverse_lazy("feeds")
+
+	def get_object(self, queryset=None):
+		self.object = super(NoteBookDeleteView, self).get_object()
+		if not self.object.submitter == self.request.user:
+			raise Http404
+		return self.object
+
+	def get_context_data(self, **kwargs):
+		context = super(ActivityStreamDeleteView, self).get_context_data(**kwargs)
+		context['title'] = "success your post has been deleted"
+		print(context['title'])
+		from django.contrib import messages
+		messages.success(self.request, context[title])
+		return context
+	

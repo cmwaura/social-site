@@ -124,9 +124,15 @@
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR picture -->
+				{% if user.userprofile.picture %}
 				<div class="profile-picture">
-					<img src="http://www.travel-spots.co.uk/wp-content/uploads/2012/07/bamburgh-beach-200x200.jpg" class="img-thumbnail" alt="">
+					<img src="{{ MEDIA_URL }}{{ user.userprofile.picture.url }}" class="img-thumbnail" alt="">
 				</div>
+				{% else %}
+				<div class="profile-picture">
+					<img src="http://placehold.it/200X200" class="img-thumbnail" alt="">
+				</div>
+				{% endif %}
 				<!-- END SIDEBAR picture -->
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
@@ -154,8 +160,8 @@
 						</li>
 						<li>
 							<a href="#">
-							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
+							<i class="glyphicon glyphicon-edit"></i>
+							Edit your profile </a>
 						</li>
 						<li>
 							<a href="#" target="_blank">
@@ -186,13 +192,15 @@
 						{% else %}
 						glyphicon-ok
 						{% endif %}"></span>
-						{% if feed.action_object.get_absolute_url %}
+						{% if feed.actor.get_absolute_url %}
 
 						<a href="{{feed.action_object.get_absolute_url}}">{{feed.actor}}</a> {{feed.verb}} {{feed.target}}
 						{% else %}
 
 						{{feed.actor}} {{feed.verb}} {{feed.target}}
+						
 						{% endif %}
+						<p> <a href="{% url 'stream_delete' pk=feed.pk %}">delete</a></p>
 					</p>
 			
 			{% endfor %}

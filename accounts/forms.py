@@ -1,5 +1,6 @@
 from django import forms
 from .models import UserProfile
+from django.core.files.images import get_image_dimensions
 
 
 class UserProfileForm(forms.ModelForm):
@@ -20,13 +21,13 @@ class UserProfileForm(forms.ModelForm):
 		return job_title
 
 	def clean_picture(self):
-		picture = self.cleaned_data.get("picute")
+		picture = self.cleaned_data.get("picture")
 		
 		try:
 			w,h = get_image_dimensions(picture)
 
-			max_width=200
-			max_height = 200
+			max_width=300
+			max_height = 300
 
 			if w>max_width or h>max_height:
 				raise forms.ValidationError(
