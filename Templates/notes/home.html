@@ -59,7 +59,7 @@
 					<div class="tch-img">
 						<a href="singlepage.html"><img src="{% static 'img/1.jpg' %}" class="img-responsive" alt=""/></a>
 					</div>
-					<a class="blog blue" href="singlepage.html"> {{ notes.tags.all.0 }}</a>
+					<a class="blog blue" href="/notes/tag/{{tags}}"> {{ notes.tags.all.0 }}</a>
 					
 					 <div data-item-id="{{notes.id }}" class="expansion"><span> Expand</span></div>
 					<h3><a href="{{notes.get_absolute_url}}">{{notes.title}}</a></h3>
@@ -67,7 +67,7 @@
 					
 						<div class="blog-poast-info">
 							<ul>
-								<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="#"> {{ notes.submitter }} </a></li>
+								<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="{{notes.submitter.user.get_absolute_url}}"> {{ notes.submitter }} </a></li>
 								<li><i class="glyphicon glyphicon-calendar"> </i>{{notes.created_on}}</li>							
 								<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
 								<li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>

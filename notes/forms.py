@@ -50,11 +50,6 @@ class NoteBookFormBase(forms.ModelForm):
 			pass
 
 		return banner
-	
-	def clean_tags(self):
-		tags = self.cleaned_data.get("tags")
-		return tags
-
 
 class NotebookForm(NoteBookFormBase):
 

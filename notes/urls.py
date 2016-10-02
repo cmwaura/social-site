@@ -7,7 +7,6 @@ from .views import thank_you as thank_you
 from .views import NoteBookDetailView as ndetail_view
 
 
-
 urlpatterns = [
 	
 	url(r'^home/', nlist_view.as_view(), name='home'),
@@ -16,6 +15,5 @@ urlpatterns = [
 	url(r'^create/', ncreate_view.as_view(), name='create-view'),
 	url(r'thanks/', thank_you, name='thanks'),	
 	url(r'^(?P<slug>[\w-]+)/$', ndetail_view.as_view(), name='single-notes'),
-
-
+	
 ]

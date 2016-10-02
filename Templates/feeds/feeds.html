@@ -2,9 +2,9 @@
 {% block feeds %} class="active"{% endblock %}
 {% block content %}
 {% include 'navbar-tabs.html' %}
-{% for action in actions %}
-{{action}}
+
+{%for activity in user_activity %}
+{{activity}}
 {% endfor %}
-{{action_1}}
 
 {% endblock %}

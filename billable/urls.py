@@ -27,6 +27,7 @@ from accounts.views import RegistrationActivation as activation_url
 
 from notes.views import FeedView as feeds
 from notes.views import ActivityStreamDeleteView as stream_delete
+from notes.views import tag_page as tag_page
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -37,6 +38,7 @@ urlpatterns = [
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^tag/(?P<tag>[\w-]+)/$', tag_page, name="tag_page"),
     url(r'^notes/', include('notes.urls', namespace='notes')),
     url(r'^feeds/', feeds.as_view(), name='feeds'),
     url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),

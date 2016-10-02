@@ -16,7 +16,7 @@ from actstream import action
 from notes.views import NoteBookCreateView
 from .models import UserProfile
 from .forms import UserProfileForm
-
+from actstream.models import actor_stream
 # extra scripts.
 from .utils import generate_new
 
@@ -30,15 +30,15 @@ class UserProfileDetailView(DetailView):
 	
 
 	def get_context_data(self, **kwargs):
+		'''
+		here we are getting all the feeds associated with an individual user and if the actor is the user
+		then we will display it on the profile page else it will be displayed in the feeds page.
+		'''
 		context_list = []
 		context = super(UserProfileDetailView, self).get_context_data(**kwargs)
-		for action in Action.objects.all():
-			
-			if str(action.actor)== str(self.request.user.username):
-				context_list.append(action)
-				# print (request.user.username)
+		# refactor this to use actor stream.
 		
-		context['user_feeds'] = context_list
+		context['user_feeds'] = actor_stream(self.request.user)
 		return context
 		
 	def get_object(self, queryset=None):

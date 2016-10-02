@@ -33,12 +33,30 @@ class FeedView(ListView):
 	template_name = 'feeds/feeds.html'
 	queryset = Action.objects.all()
 	context_object_name = 'actions'
-	
+
+	def __init__(self, *args, **kwargs):
+
+		'''
+		Adding an extra initializating which will be used in the methods below
+		'''
+
+		super(FeedView, self).__init__(*args, **kwargs)
+		self.context_list = []
+
 	def get_context_data(self, **kwargs):
+		'''
+		In this case we are getting all the actions that a user has done that where the
+		user isnt the person logged in. So we check the list and filter out all the users
+		not who is not self.request.user
+		'''
+		from actstream.models import actor_stream
+		print(actor_stream(self.request.user))
 		context = super(FeedView, self).get_context_data(**kwargs)
 		for action in self.queryset:
-			if action.actor == self.request.user:
-				context['action_1'] = action
+			if str(action.actor) != str(self.request.user) and\
+			 str(action.target) != str(self.request.user):
+			 	self.context_list.append(action)	
+		context['user_activity'] = self.context_list
 		return context
 
 		
@@ -74,19 +92,28 @@ class NoteBookCreateView(NoteBookBaseEditMixin, CreateView):
 		self.object = form.save(commit=False)
 		self.object.title= form.clean_title() 
 		self.object.text = form.clean_text()
-		# self.object.tags = form.clean_tags()
 		self.object.submitter = self.request.user
+		
 		self.object.save()
+		form.save_m2m()
+
 		action.send(self.request.user, verb='created', target=form.instance)
 
 		return super(NoteBookCreateView, self).form_valid(form)
 
 class NoteBookUpdateView(UpdateView):
+	'''
+	Update view to support the user editting their notebooks.
+	'''
 	model = NoteBook
 	form_class = NotebookUpdateForm
 	template_name='notes/update-form.html'
 
 class NoteBookDeleteView(DeleteView):
+	'''
+	Delete View for the user to delete a notebook. In this class, the methods
+	get_context_data and get_object will be overridden to include extra restrictions
+	'''
 	model = NoteBook
 	success_url = reverse_lazy('notes:home')
 	template_name = "notes/confirm-delete.html"
@@ -97,12 +124,17 @@ class NoteBookDeleteView(DeleteView):
 			raise Http404
 		return self.object
 
-	def get_context_date(self, **kwargs):
+	def get_context_data(self, **kwargs):
 		context = super(NoteBookDetailView, self).get_context_data(**kwargs)
+		
 		context['title'] = "success your post has been deleted"
 		return context
 	
 def thank_you(request):
+	'''
+	Thank you page rendered after a successful form submission
+	'''
+
 	title = "Thank you for your submission"
 	return render(request, context={"title":title}, template_name='notes/thanks.html')
 
@@ -112,7 +144,6 @@ def tag_page(request, tag):
 	'''
 
 	note = NoteBook.objects.filter(tag__name=tag)
-	note = note.order_by("created_on")
 	template_name = 'notes/tags.html'
 	context = {
 		"note":note,

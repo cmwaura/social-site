@@ -21,6 +21,12 @@
 	margin: 0 0 0.7em;
 	float: left;
 }
+.tech-btm h4 {
+	font-size: 1.2em;
+	color: #333333;
+	font-weight: 550;
+	padding-bottom: -5px;
+}
 </style>
 <div class="header">
 {% include 'navbar-tabs.html' %}
@@ -39,6 +45,15 @@
 						<p style="font-size:1em;">{{notepage.text|safe}}</p>				
 					</div>
 				</div>
+				<hr/>
+				<div class="tags">
+	                {% for tag in notepage.tags.all %}
+		                <b><h4>Tags include:</h4></b>
+		                <a class="btn btn-xs btn-primary" href="/tag/{{tag}}"> {{ tag }}</a>{% csrf_token %}
+		                {% if not forloop.last %},{% endif %}
+	                {% endfor %} 
+                </div>
+				<hr/>
 				<div class="comment-top">
 					
 					{% if user.is_authenticated %}                  
@@ -54,6 +69,7 @@
 		                        {{form.timestamp| as_crispy_field}}
 		                        {{form.security_hash| as_crispy_field}}
 		                        <input type="hidden" name="name" value="{{user}}"/>
+
 		                        <input type="hidden" name="email" value="{{user.email| default:'d@mmy.com'}}"/>
 		                        <input type="hidden" name="honeypot" value=""/>
 		                        <input type="hidden" name="url" value=""/>
@@ -63,6 +79,7 @@
 						</div>
 						{% endif %}
 					</div>
+				
 					
 
 					<div class="comment">
@@ -72,9 +89,9 @@
 							{% for comment in comment_list %}
 						
 								<div class="media-body">
-									  <h4 class="media-heading">{{ comment.name }}</h4>
-									  <small> {{ comment.date }} </small>
-									  <p style="color:black;">{{ comment.comment }}</p>
+									  <h4 class="media-heading"><a href="{{comment.user.get_absolute_url}}">{{ comment.name }}</a></h4>
+									  <small> {{ comment.submit_date }} </small>
+									  <p style="color:black;">{{ comment.comment }}</p><br><hr>
 
 								  <!-- Nested media object -->
 								</div>

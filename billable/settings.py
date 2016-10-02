@@ -49,15 +49,16 @@ INSTALLED_APPS = [
     'taggit',
     'django_summernote',
     'hitcount',
-    'actstream',
+    
     'django_comments',
-
+    'friendship',
     'postman',
     'mptt',
     #developer created apps
     'accounts',
    	'notes',
     'comments',
+    'actstream',
 ]
 SITE_ID = 1
 
