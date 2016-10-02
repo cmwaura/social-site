@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from registration.backends.hmac.views import ActivationView
 from actstream.models import Action
 from actstream import action
-
+from actstream.models import following, followers
 
 # app detail imports 
 from notes.views import NoteBookCreateView
@@ -28,6 +28,18 @@ class UserProfileDetailView(DetailView):
 	slug_field = "username"
 	template_name = 'user/profile.html'
 	
+	def get_object(self, queryset=None):
+		user = super(UserProfileDetailView, self).get_object(queryset)
+		UserProfile.objects.get_or_create(user=user)
+		return user
+
+	def get_user_followee(self):
+		followee = following(self.request.user)
+		return followee
+
+	def get_user_followers(self):
+		follower = followers(self.request.user)
+		return follower
 
 	def get_context_data(self, **kwargs):
 		'''
@@ -36,17 +48,20 @@ class UserProfileDetailView(DetailView):
 		'''
 		context_list = []
 		context = super(UserProfileDetailView, self).get_context_data(**kwargs)
-		# refactor this to use actor stream.
-		
-		context['user_feeds'] = actor_stream(self.request.user)
+		# here we get the user profile object which we will use to pass to the actor_stream()
+		# and generate the profile stream
+
+		profile = self.get_object()
+		# passing the actor_stream as a context var
+		context['user_feeds'] = actor_stream(profile)
+		context['followers'] = self.get_user_followers()
+		context['followee'] = self.get_user_followee()
+		print(context['followee'])
+		print(context['followers'])
 		return context
+
 		
-	def get_object(self, queryset=None):
-		user = super(UserProfileDetailView, self).get_object(queryset)
-		UserProfile.objects.get_or_create(user=user)
-
-		return user
-
+	
 
 def base_tester(request):
 	return render(request, template_name="base.html")
