@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
-{% block profile %} class="active"{% endblock %} 
+{% load activity_tags %}
+
+
+
+
+
 {% block content %}
 
 {% include 'navbar-tabs.html' %}
@@ -146,8 +151,22 @@
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm">Follow
-					</button>
+					{% with user=request.user %}
+						<button type="button" onclick="window.location='{% follow_url object %}?next={{request.path}}';" class="btn btn-success btn-sm">
+
+						<!-- <a href="{% follow_url object %}?next={{request.path}}"> -->
+							{% if user|is_following:object %}
+						     
+						        Stop Following
+						           
+						    {% else %}
+
+						        Follow
+						    
+						    {% endif %}
+						            
+						</button>
+					{% endwith %}
 					<button type="button" class="btn btn-danger btn-sm">Message</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
@@ -174,13 +193,30 @@
 							<i class="glyphicon glyphicon-flag"></i>
 							Help </a>
 						</li>
+							
+					</ul>
+				</div>
+				<hr/>
+				<!-- SIDEBAR MENU -->
+				<div class="profile-userfollowee">
+					<ul class="nav">
+					{# user followees #}
+					{% if request.user == user %}
+						{% for followee in followees %}
+						<li class="active">
+							<a href= "{{followee.get_absolute_url}}">{{followee}}</a>							
+						</li>
+						{% endfor %}
+					{% endif %}
 					</ul>
 				</div>
 				<!-- END MENU -->
 			</div>
 		</div>
 		<div class="col-md-9">
+
             <div class="profile-activity">
+            {# user feeds #}
 			{% for feed in user_feeds %}
 			
 				<p class="row feeds">
@@ -195,7 +231,9 @@
 						{% endif %}"></span>
 						{% if feed.actor.get_absolute_url %}
 
-						<a href="{{feed.action_object.get_absolute_url}}">{{feed.actor}}</a> {{feed.verb}} {{feed.target}}
+
+						<a href="{{feed.action_object.get_absolute_url}}">{{feed.actor}}</a> {{feed.verb}} 
+						<a href="{{feed.target.get_absolute_url}}">{{feed.target}}</a>
 						{% else %}
 
 						{{feed.actor}} {{feed.verb}} {{feed.target}}

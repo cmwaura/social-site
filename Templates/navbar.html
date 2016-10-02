@@ -58,7 +58,7 @@
             {% if request.user.is_authenticated %}
           <li><a href="{% url 'profile' slug=user.username %}">Profile</a></li>
            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-            <li><a href="{% url 'profile' slug=user.username %}">welcome {{user.username}}</a></li>
+            <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li>
           {% else %}
             <li class="active"><a href="{% url 'registration_register' %}">Register <span class="sr-only">(current)</span></a></li>
             

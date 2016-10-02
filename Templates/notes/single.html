@@ -135,7 +135,11 @@
 					<hr>
 						<div class="blog-grids">
 							<div class="blog-grid-left">
+							{% if notepage.submitter.picture %}
 								<a href="singlepage.html"><img src="{{ MEDIA_URL }}{{ notepage.submitter.userprofile.picture.url }}" class="img-responsive" id="image-settings" alt=""/></a>
+							{% else %}
+								<a href="singlepage.html"><img src="" class="img-responsive" id="image-settings" alt=""/></a>
+							{% endif %}		
 							</div>
 							<div class="blog-grid-right">
 								

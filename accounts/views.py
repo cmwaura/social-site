@@ -54,10 +54,9 @@ class UserProfileDetailView(DetailView):
 		profile = self.get_object()
 		# passing the actor_stream as a context var
 		context['user_feeds'] = actor_stream(profile)
+		# getting the user followers and user followee based on the user
 		context['followers'] = self.get_user_followers()
-		context['followee'] = self.get_user_followee()
-		print(context['followee'])
-		print(context['followers'])
+		context['followees'] = self.get_user_followee()
 		return context
 
 		
