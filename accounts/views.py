@@ -46,7 +46,6 @@ class UserProfileDetailView(DetailView):
 		here we are getting all the feeds associated with an individual user and if the actor is the user
 		then we will display it on the profile page else it will be displayed in the feeds page.
 		'''
-		context_list = []
 		context = super(UserProfileDetailView, self).get_context_data(**kwargs)
 		# here we get the user profile object which we will use to pass to the actor_stream()
 		# and generate the profile stream

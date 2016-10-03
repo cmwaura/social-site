@@ -234,8 +234,8 @@ min-height: 550px;
 }
 /*--banner--*/
 /*--technology-left--*/
-..technology-1 p {
-    color: #060606;
+.technology-1 p {
+    color: black;
     font-size: 1em;
     line-height: 1.8em;
     margin: 1em 0;
@@ -321,7 +321,7 @@ a.blog.orn{
 }
 .tech-no {
     position: absolute;
-    top: -35px;
+    top:0;
     width: 101%;
    
 }
@@ -520,7 +520,7 @@ min-height: 300px;
     font-family: 'normal;
 }
 .technology-1 p {
-    color: #777;
+    color: black;
     font-size: 1em;
     line-height: 1.8em;
     margin: 1em 0;
@@ -758,7 +758,7 @@ h4.media-heading {
 .blog-text h5 {
     font-size: 1.7em;
     margin: 0.6em 0;
-	color:#f53f1a;
+	color:#FB6648;
 	font-weight:700;
 }
 /*--//single--*/

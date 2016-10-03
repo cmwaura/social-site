@@ -6,6 +6,9 @@
     *display:inline; /* ie7 fix */
      zoom:1; /* hasLayout ie7 trigger */
 }
+.nav{
+  margin-top: 0px !important;
+}
 
 .nav-tabs{
     text-align:center;
@@ -15,17 +18,31 @@
     padding-bottom:5px !important;
   }
 .navbar {
-    min-height:34px !important
+    min-height:39px !important
 }
-.navbar-nav > li > a, .navbar-brand {
-    padding-top:5px !important; padding-bottom:0 !important;
-    height: 37px;
+#navbar-nav > li > a, #navbar-brand {
+  padding-top: 8px !important;
+  padding-bottom: 0 !important;
+  height: 40px;
+  color: #3B3A35 !important;
+}
+
+#navbar-id-default {
+  background-color: #ECDFBD;
+  
+  margin-bottom: 0px;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #20457C !important;
+}
+.nav-tabs > li > a{
+  color: #20457C !important;
 }
 
 </style>
 
 
-    <nav class="navbar-inverse navbar-default navbar-fixed-top">
+    <nav id="navbar-id-default" class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -34,10 +51,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Project name</a>
+          <a id="navbar-brand" class="navbar-brand" href="/">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+          <ul id="navbar-nav" class="nav navbar-nav">
             <li class="active"><a href="{% url 'notes:home' %}">Home</a></li>
             <li><a href="{% url 'notes:home' %}">About</a></li>
             <li><a href="{% url 'notes:home' %}">Contact</a></li>

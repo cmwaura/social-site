@@ -204,7 +204,7 @@
 					{% if request.user == user %}
 						{% for followee in followees %}
 						<li class="active">
-							<a href= "{{followee.get_absolute_url}}">{{followee}}</a>							
+							<a href= "{{ followee.get_absolute_url }}">{{followee}}</a>							
 						</li>
 						{% endfor %}
 					{% endif %}
@@ -234,13 +234,15 @@
 
 						<a href="{{feed.action_object.get_absolute_url}}">{{feed.actor}}</a> {{feed.verb}} 
 						<a href="{{feed.target.get_absolute_url}}">{{feed.target}}</a>
+						{{ feed.timestamp|timesince}}
+
 						{% else %}
 
 						{{feed.actor}} {{feed.verb}} {{feed.target}}
 						
 						{% endif %}
-						<p> <a href="{% url 'stream_delete' pk=feed.pk %}">delete</a></p>
 					</p>
+				<p class="timer"> </p>
 			
 			{% endfor %}
             </div>

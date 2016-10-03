@@ -42,6 +42,7 @@
 					<img src="{% static 'img/1.jpg' %}" class="img-responsive" alt="">
 					<div class="blog-text">
 						<h5 style="text-align:center;">{{notepage.title}}</h5>
+						<hr/>
 						<p style="font-size:1em;">{{notepage.text|safe}}</p>				
 					</div>
 				</div>
@@ -135,7 +136,7 @@
 					<hr>
 						<div class="blog-grids">
 							<div class="blog-grid-left">
-							{% if notepage.submitter.picture %}
+							{% if notepage.submitter.userprofile.picture %}
 								<a href="singlepage.html"><img src="{{ MEDIA_URL }}{{ notepage.submitter.userprofile.picture.url }}" class="img-responsive" id="image-settings" alt=""/></a>
 							{% else %}
 								<a href="singlepage.html"><img src="" class="img-responsive" id="image-settings" alt=""/></a>
