@@ -2,6 +2,7 @@ from django.shortcuts import render, Http404
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 from django.utils import timezone
 
@@ -143,14 +144,45 @@ def tag_page(request, tag):
 	page where all the information is filtered based on the tag provided
 	'''
 
-	note = NoteBook.objects.filter(tag__name=tag)
-	template_name = 'notes/tags.html'
+	note = NoteBook.objects.filter(tags__name=tag)
+	template = 'notes/tags.html'
 	context = {
 		"note":note,
 		"tag":tag,
 	}
-	return render(request, context, template_name)
+	return render(request, template, context)
 
+
+def search(request):
+	'''
+	Simple miniature search form that checks the database for the item with 
+	the title supplied as q. Uses the query title_icontains.
+	'''
+	try:
+		q = request.GET.get('q')
+	except:
+		q=None
+	if q:
+		notes = NoteBook.objects.filter(title__icontains=q)
+		notes_count = notes.count()
+		accounts = User.objects.filter(username__icontains=q)
+		accounts_count = accounts.count()
+		total_count = notes_count + accounts_count
+		context = {
+			"query":q,
+			"notes":notes,
+			"notes_count": notes_count,
+			"accounts": accounts,
+			"account_count":accounts_count,
+			"total_count":total_count
+		}
+		print(context)
+		template ="notes/results.html"
+	else:
+		context={}
+		template = "notes/home.html"
+
+	return render(request, template, context)
 
 class ActivityStreamDeleteView(DeleteView):
 	model = Action

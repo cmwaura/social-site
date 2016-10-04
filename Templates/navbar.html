@@ -38,6 +38,15 @@
 .nav-tabs > li > a{
   color: #20457C !important;
 }
+/*search form*/
+.search-form {
+  padding-top: 3px;
+  border-radius: 10px; 
+}
+#search {
+  border-radius: 50px !important;
+}
+
 
 </style>
 
@@ -54,7 +63,7 @@
           <a id="navbar-brand" class="navbar-brand" href="/">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul id="navbar-nav" class="nav navbar-nav">
+          <!-- <ul id="navbar-nav" class="nav navbar-nav">
             <li class="active"><a href="{% url 'notes:home' %}">Home</a></li>
             <li><a href="{% url 'notes:home' %}">About</a></li>
             <li><a href="{% url 'notes:home' %}">Contact</a></li>
@@ -70,12 +79,27 @@
                 <li><a href="#">One more separated link</a></li>
               </ul>
             </li>
-          </ul>
+          </ul> -->
+
+    <!-- <div class="row"> -->
+        <div class="col-md-4 col-md-offset-3">
+            <form class="search-form" role="search" action="/s/">
+                <div class="form-group has-feedback">
+                <label for="search" class="sr-only">Search</label>
+                <input type="text" class="form-control" name="q" id="search" placeholder="search">
+                  <span class="glyphicon glyphicon-search form-control-feedback"></span>
+              </div>
+            </form>
+        </div>
+    
           <ul class="nav navbar-nav navbar-right">
+
             {% if request.user.is_authenticated %}
-          <li><a href="{% url 'profile' slug=user.username %}">Profile</a></li>
+          <li><a href="{% url 'profile' slug=user.username %}">
+                        <span class="glyphicon glyphicon-user"></span> 
+                        Profile</a></li>
            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-            <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li>
+            <!-- <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li> -->
           {% else %}
             <li class="active"><a href="{% url 'registration_register' %}">Register <span class="sr-only">(current)</span></a></li>
             

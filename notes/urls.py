@@ -16,4 +16,5 @@ urlpatterns = [
 	url(r'thanks/', thank_you, name='thanks'),	
 	url(r'^(?P<slug>[\w-]+)/$', ndetail_view.as_view(), name='single-notes'),
 	
+	
 ]

@@ -26,7 +26,8 @@
       #navbar-middle{
         margin-top:40px;
         border-color: #20457C;
-        min-height:39px !important
+        min-height:39px !important;
+        background-color: white;
       }
       
       #navbar-middle-tabs > li > a{
@@ -72,7 +73,8 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="../navbar/">Default</a></li>
             <li><a href="../navbar-static-top/">Static top</a></li>
-            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+            
+            <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

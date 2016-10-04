@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'navbar-tabs.html' %}
+
+<style>
+	.results{
+		padding-left: 10px;
+	}
+</style>
+<br>
+	<div class="container results">
+
+		<hgroup>
+		
+			<h1> Search Results: </h1>
+			<h3 class="lead"><strong class="text-danger">{{ total_count }}</strong> total results were found for the search for <strong class="text-danger">{{ query }}</strong></h3>
+			
+		</hgroup>
+
+		{% if accounts %}
+			<h3> User results </h3>
+			<hr/>
+			<div class="row">
+				
+
+					{% for account in accounts %}
+					<div class="col-md-3">
+						{% if account.userprofile.picture %}
+						
+							<a href="#" title="{{ account.username }}" class="img-thumbnail">
+							<img src="{{ MEDIA_URL }}{{ account.userprofile.picture.url }}" alt="{{ account.username }}"/></a>	
+								<div class="glyphicon glyphicon-user"> 
+								<a href="{{ account.get_absolute_url }}">{{account.username}}</a>
+							</div>
+						{% else %}
+							<div class="profile-picture">
+								<img src="http://placehold.it/200X200" class="img-thumbnail" alt="">
+								<a href="{{ account.get_absolute_url }}">{{account.username}}</a>
+								
+							</div>
+						{% endif %}
+					</div>
+					{% cycle "" "" "</div><br/><hr/><div class='row'>" %}
+
+					{% endfor %}
+				
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

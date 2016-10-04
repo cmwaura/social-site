@@ -28,6 +28,7 @@ from accounts.views import RegistrationActivation as activation_url
 from notes.views import FeedView as feeds
 from notes.views import ActivityStreamDeleteView as stream_delete
 from notes.views import tag_page as tag_page
+from notes.views import search as search
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -44,6 +45,7 @@ urlpatterns = [
     url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^messages/', include('postman.urls', namespace='postman')),
+    url(r'^s/$', search, name='search'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
