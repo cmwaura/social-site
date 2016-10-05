@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^tag/(?P<tag>[\w-]+)/$', tag_page, name="tag_page"),
     url(r'^notes/', include('notes.urls', namespace='notes')),
+    url(r'^newsfeed/', include('newsfeed.urls', namespace='newsfeed')),
     url(r'^feeds/', feeds.as_view(), name='feeds'),
     url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),
     url(r'^comments/', include('django_comments.urls')),

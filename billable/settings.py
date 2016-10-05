@@ -58,7 +58,9 @@ INSTALLED_APPS = [
     'accounts',
    	'notes',
     'comments',
+    'newsfeed',
     'actstream',
+
 ]
 SITE_ID = 1
 
