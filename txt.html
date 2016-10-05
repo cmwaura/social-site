@@ -1,26 +1,7 @@
-<style>
-.banner {
-	padding: 10em 0 0;
-	text-align: center;
-	display: block;
-	margin: 0 auto;
-	min-height: 400px;
-	width: 1150px;
-	margin-top:10px;
-}
-.tc-ch .expansion-content {
-    display: none;
-    padding : 5px;
-    
-}
-.tc-ch .expansion {
-	background-color: yellow;
-	cursor:pointer;
-}
-</style>
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}	<!--start-main-->
+{% block content %}
+
 <div class="header">
 
 {% include 'navbar-tabs.html' %}
@@ -32,9 +13,13 @@
 <div class="technology">
 	<div class="container">
 		<div class="col-md-9 technology-left">
-		<div class="tech-no">
-			<!-- technology-top -->
+		
+			
+			
+
 			{% for notes in notebook_list %}
+			<div class="tech-no">
+			<div class="clearfix"></div>
 			<div class="soci">
 				<ul>
 					<li><a href="#" class="facebook-1"> </a></li>
@@ -45,15 +30,17 @@
 					<li><a href="#"><i class="glyphicon glyphicon-plus"> </i></a></li>
 				</ul>
 			</div>
-			 <div class="tc-ch">
-				
+			
+			 <div class="tc-ch">				
 					<div class="tch-img">
-						<a href="singlepage.html"><img src="{% static 'img/1.jpg' %}"" class="img-responsive" alt=""/></a>
+						<a href="singlepage.html"><img src="{% static 'img/1.jpg' %}" class="img-responsive" alt=""/></a>
 					</div>
-					<a class="blog blue" href="/tag/{{tags}}">{{ notes.tags.all.0 }}</a>
+					<a class="blog blue" href="/notes/tag/{{tags}}"> {{ notes.tags.all.0 }}</a>
+					
+					 <div data-item-id="{{notes.id }}" class="expansion"><span> Expand</span></div>
 					<h3><a href="{{notes.get_absolute_url}}">{{notes.title}}</a></h3>
-						<p>{{notes.text|truncatewords_html:60|safe}}</p>
-				
+						<div class="expansion-content"><p>{{notes.text|safe|truncatewords:30}}</p></div>
+					
 						<div class="blog-poast-info">
 							<ul>
 								<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="{{notes.submitter.user.get_absolute_url}}"> {{ notes.submitter }} </a></li>
@@ -63,38 +50,13 @@
 							</ul>
 						</div>
 			</div>
+			</div>
 			{% endfor %}
-			<div class="clearfix"></div>
-			<!-- technology-top -->
 			<!-- technology-top -->
 			
-			<!-- technology-top -->
-			</div>
 		</div>
 		<!-- technology-right -->
 		<div class="col-md-3 technology-right">
-				<div class="blo-top">
-					<div class="tech-btm">
-					<img src="images/banner1.jpg" class="img-responsive" alt=""/>
-					</div>
-				</div>
-				<div class="blo-top">
-					<div class="tech-btm">
-					<h4>Sign up to our newsletter</h4>
-					<p>Pellentesque dui, non felis. Maecenas male</p>
-						<div class="name">
-							<form>
-								<input type="text" placeholder="Email" required="">
-							</form>
-						</div>	
-						<div class="button">
-							<form>
-								<input type="submit" value="Subscribe">
-							</form>
-						</div>
-							<div class="clearfix"> </div>
-					</div>
-				</div>
 				<div class="blo-top1">
 					<div class="tech-btm">
 					<h4>Top stories of the week </h4>
@@ -154,6 +116,26 @@
 		</div>
 		<div class="clearfix"></div>
 		<!-- technology-right -->
+		<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+	<script>
+	$(document).ready(function(){
+		$('.expansion').click(function(){
+		 
+		alert(item_id)
+		// $(".expansion").click(function() {
+		// 	var id = $(this).attr('id').split('-')[1];
+		// 	$expansion = $(this).find('#expansion-'+id);
+		// 	$content = $(".expansion-content");
+		// 	$content.slideToggle(500, function(){
+		// 		$expansion.text(function(){
+		// 			return $content.is(":visible")? "Collapse": "Expand";
+		// 		});
+		// 	});
+		// });
+	});
+	</script>
 	</div>
 </div>
+<!-- technology -->
+<!-- footer -->
 {% endblock %}

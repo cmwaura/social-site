@@ -7,19 +7,25 @@
 	.results{
 		padding-left: 10px;
 	}
+	.tc-ch{
+		padding:0;
+	}
+	.results-title a {
+		color: #5E3448 !important;
+	}
 </style>
 <br>
 	<div class="container results">
 
 		<hgroup>
 		
-			<h1> Search Results: </h1>
-			<h3 class="lead"><strong class="text-danger">{{ total_count }}</strong> total results were found for the search for <strong class="text-danger">{{ query }}</strong></h3>
+			<h3> Search Results: </h3>
+			<h4 class="lead"><strong class="text-danger">{{ total_count }}</strong> total results were found for the search for <strong class="text-danger">{{ query }}</strong></h4>
 			
 		</hgroup>
 
 		{% if accounts %}
-			<h3> User results </h3>
+			<h5> User results: {{account_count}} results </h5>
 			<hr/>
 			<div class="row">
 				
@@ -30,14 +36,15 @@
 						
 							<a href="#" title="{{ account.username }}" class="img-thumbnail">
 							<img src="{{ MEDIA_URL }}{{ account.userprofile.picture.url }}" alt="{{ account.username }}"/></a>	
-								<div class="glyphicon glyphicon-user"> 
+							<div class="glyphicon glyphicon-user"> 
 								<a href="{{ account.get_absolute_url }}">{{account.username}}</a>
 							</div>
 						{% else %}
 							<div class="profile-picture">
 								<img src="http://placehold.it/200X200" class="img-thumbnail" alt="">
-								<a href="{{ account.get_absolute_url }}">{{account.username}}</a>
-								
+								<div class="glyphicon glyphicon-user"> 
+									<a href="{{ account.get_absolute_url }}">{{account.username}}</a>
+								</div>
 							</div>
 						{% endif %}
 					</div>
@@ -46,6 +53,42 @@
 					{% endfor %}
 				
 			</div>
+
+		{% endif %}
+
+		<hr/>
+		{% if notes %}
+		<h4> Notes results: {{notes_count}} results </h4>
+			<br>
+			<div class="row">
+			<ol>
+				{% for note in notes %}
+					
+						<div class="tc-ch">
+						<li>						
+							<h3 class="results-title"><a href="{{notes.get_absolute_url}}">{{note.title}}</a></h3>
+							<div class="expansion-content"><p>{{note.text|safe|truncatewords:30}}</p></div>
+							<div class="blog-poast-info">
+								<ul>
+									<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="{{note.submitter.get_absolute_url}}"> {{ note.submitter }} </a></li>
+
+									{% if note.tags.all.0 %}
+									<li><i class="glyphicon glyphicon-calendar"> </i>{{note.tags.all.0}}</li>							
+									{% endif %}
+
+									<li><i class="glyphicon glyphicon-calendar"> </i>{{note.created_on}}</li>							
+									<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
+									<li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>
+								</ul>
+							</div>
+						</li>
+						<hr/>
+						</div>				
+				
+				{% endfor %}
+			</ol> 
+			</div>
+		
 		{% endif %}
 	</div>
 {% endblock %}
