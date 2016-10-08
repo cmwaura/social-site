@@ -3,8 +3,10 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 #third party imports
 
@@ -60,12 +62,15 @@ class FeedView(ListView):
 		context['user_activity'] = self.context_list
 		return context
 
-		
+
 
 class NoteBookListView(ListView):
 	model = NoteBook
 	paginate_by = 25
 	template_name = 'notes/home.html'
+
+notes = NoteBookListView.as_view()
+notes.login_required = False
 
 
 class NoteBookDetailView(NoteMixinDetailView, DetailView):
