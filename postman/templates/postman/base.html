@@ -1,0 +1,44 @@
+{% extends "base.html" %}{# not myself but a site-level one (TEMPLATE_DIRS setting) #}
+{% load i18n static %}{% load postman_tags %}{% load base_extras %}
+{% block title %}{% trans "Messaging" %}{% endblock %}
+{% block extrahead %}{{ block.super }}
+<link type="text/css" media="all" rel="stylesheet" href="{% static 'postman/css/postman.css' %}" />
+{% endblock %}
+
+{% block postman_menu %}
+<style>
+/*nav-pills messages*/
+.nav-pills-round > li > a {
+-webkit-border-radius: 0;
+-moz-border-radius: 50px !important;
+border-radius: 10px !important;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+	color: #fff;
+	background-color: #20457C;
+}
+.nav > li > a {
+	position: relative;
+	display: block;
+	padding: 10px 15px;
+	color: #20457C;
+}
+ul {
+	margin: 20px;
+	padding: 0;
+}
+</style>
+		<br>
+        <!-- <div id="sidebar-messages">
+            <a href="#" class="btn btn-danger btn-sm btn-block" role="button">COMPOSE</a>
+            <hr /> -->
+            <ul id="postman_menu" class="nav nav-pills pull-right nav-pills-round">
+                <li class="{% navactive request 'postman:inbox' %}"><a href="{% url 'postman:inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+				<li class="{% navactive request 'postman:sent' %}"><a href="{% url 'postman:sent' %}">{% trans "Sent" %}</a></li>
+				<li class="{% navactive request 'postman:write' %}"><a href="{% url 'postman:write' %}">{% trans "Write" %}</a></li>
+				<li class="{% navactive request 'postman:archives' %}"><a href="{% url 'postman:archives' %}">{% trans "Archives" %}</a></li>
+				<li class="{% navactive request 'postman:trash' %}"><a href="{% url 'postman:trash' %}">{% trans "Trash" %}</a></li>
+			</ul>
+        <!-- </div> -->
+
+{% endblock %}

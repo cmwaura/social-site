@@ -26,7 +26,7 @@ class NewsFeedCreateView(CreateView):
 		self.object.save()
 		form.save_m2m()
 
-		# action.send(self.request.user, verb='created', target=form.instance)
+		action.send(self.request.user, verb='wrote', target=form.instance)
 
 		return super(NewsFeedCreateView, self).form_valid(form)
 

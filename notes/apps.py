@@ -1,7 +1,7 @@
 
 from django.apps import AppConfig,apps
 import accounts
-
+import newsfeed 
 
 
 class NotesConfig(AppConfig):
@@ -12,5 +12,6 @@ class NotesConfig(AppConfig):
     	from django.contrib.auth.models import User
 
     	registry.register(self.get_model('NoteBook'))
+    	registry.register(apps.get_model('newsfeed.NewsFeed'))
     	registry.register(apps.get_model('accounts.UserProfile'))
     	registry.register(User)
