@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import NewsFeed
 # Register your models here.
 class NewsFeedAdmin(admin.ModelAdmin):
-	list_display = ("__str__", "created_on", "updated_on", "active", "featured", "published")
+	list_display = ("__str__", "timestamp", "updated_on", "active", "featured", "published")
 
 
 

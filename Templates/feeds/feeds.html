@@ -1,8 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 {% include 'navbar-tabs.html' %}
 <br>
+<style>
+.timer{
+	float: right;
+	display: block;
+	padding:10px;
+}
+.status{
+	
+	display: block;
+	padding-left: 55px;
+
+}
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-2">
@@ -16,50 +30,79 @@
 			  
 			  <br>
           	</form>
+
   			
 				{% for activity in user_activity %}
 				<p class="row feeds">
-					<span class=" glyphicon {% if activity.verb ==  'created' %}
-						 glyphicon-ok-circle
-						{% elif activity.verb == 'updated' %}
-						glyphicon-cog
-						{% elif activity.verb == 'deleted' %}
-						glyphicon-remove
-						{% else %}
-						glyphicon-ok
-						{% endif %}"></span>
-						{% if activity.actor.userprofile.picture %}
-						<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ activity.actor.userprofile.picture.url }}" height="42" width="42">
-						{% else %}
-						<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
-						{% endif %}
+					{% if activity.newsfeed %}
+						<i class="fa fa-feed"></i>
+							{% if activity.submitter.userprofile.picture %}
+								<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ activity.submitter.userprofile.picture.url }}" height="42" width="42">
+							{% else %}
+								<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
+							{% endif %}
 
-						{% if activity.actor.get_absolute_url %}
+							{% if activity.submitter.get_absolute_url %}
 
 
-						<a href="{{activity.action_object.get_absolute_url}}">{{ activity.actor }}</a> {{ activity.verb }} 
-						<a href="{{activity.target.get_absolute_url}}">{{ activity.target }}</a>
-						{{ activity.timestamp|timesince }}
+								<a href="{{activity.submitter.get_absolute_url}}">{{ activity.submitter }}</a> {% trans "updated status:" %} 
+								<span class="timer">time: {{ activity.timestamp|timesince }}
+								</span>
+								<div class="status">
+									<q>{{activity.newsfeed}}</q>
+								</div>
+							{% else %}
 
-						{% else %}
-
-						{{activity.actor}} {{activity.verb}} {{activity.target}}
+								{{activity.actor}} {{activity.verb}} {{activity.target}}
 						
-						{% endif %}
-					</p>
+							{% endif %}
+					{% else %}
+						<span class=" glyphicon {% if activity.verb ==  'created' %}
+							 glyphicon-ok-circle
+							{% elif activity.verb == 'updated' %}
+							glyphicon-cog
+							{% elif activity.verb == 'deleted' %}
+							glyphicon-remove
+							{% else %}
+							glyphicon-ok
+							{% endif %}"></span>
+							{% if activity.actor.userprofile.picture %}
+							<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ activity.actor.userprofile.picture.url }}" height="42" width="42">
+							{% else %}
+							<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
+							{% endif %}
 
-				<p class="timer"> </p>
-				<hr>
+							{% if activity.actor.get_absolute_url %}
 
-				<!-- <div class="row">
 
-				{{ activity.actor}}
+							<a href="{{activity.action_object.get_absolute_url}}">{{ activity.actor }}</a> {{ activity.verb }} 
+							<a href="{{activity.target.get_absolute_url}}">{{ activity.target }}</a>
+							<span class="timer">time: {{ activity.timestamp|timesince }} {% trans "ago" %}
+								</span>
+							
+
+
+							{% else %}
+
+							{{activity.actor}} {{activity.verb}} {{activity.target}}
+							
+							{% endif %}
+					{% endif %}
+
+						</p>
+
+					<p class="timer"> </p>
+					<hr>
+
+					<!-- <div class="row">
+
+					{{ activity.actor}}
+						
+					{{activity.verb}}
+					{{activity.target}}
+					{{activity.timestamp|timesince}}
 					
-				{{activity.verb}}
-				{{activity.target}}
-				{{activity.timestamp|timesince}}
-				
-				</div> -->
+					</div> -->
 
 				{% endfor %}
 

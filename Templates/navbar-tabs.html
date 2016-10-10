@@ -37,22 +37,62 @@
         color: #3B3A35 !important;
 
       }
+      #navbar-middle .navbar-toggle .icon-bar {
+        background-color: black !important;
+      }
+      [data-target="#navbar-second"] {
+        float:left;
+      }
+      /* Remember to change the actual bootstrap.css and reminify it*/
+      .navbar-toggle {
+      border: none;
+      background: transparent !important;
+      }
+      .navbar-toggle:hover {
+      background: transparent !important;
+      }
 
+      .icon-bar {
+      width: 22px;
+      transition: all 0.2s;
+      }
+      .first {
+      transform: rotate(45deg) !important;
+      transform-origin: 10% 10% !important;
+      }
+      .second {
+      opacity: 0!important;
+      }
+      .third {
+      transform: rotate(-45deg)!important;
+      transform-origin: 10% 90%!important;
+      }
+
+      .navbar-toggle.collapsed .first {
+        transform: rotate(0) !important;
+      }
+      .navbar-toggle.collapsed .second{
+        opacity: 1 !important;
+      }
+      .navbar-toggle.collapsed .third {
+        transform: rotate(0) !important;
+      }
       </style>
       <!-- <div class="header-top"></div> -->
         <!-- Fixed navbar -->
+    {% if request.user.is_authenticated %}
     <nav id="navbar-middle" class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-second" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="icon-bar first"></span>
+            <span class="icon-bar second"></span>
+            <span class="icon-bar third"></span>
           </button>
           
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar-second" class="navbar-collapse collapse">
           <ul id="navbar-middle-tabs" class="nav navbar-nav">
             <li class="{% navactive request 'notes:home' %}"><a href="{% url 'notes:home' %}">Home</a></li>
             <li class="{% navactive request 'feeds' %}"><a href="{% url 'feeds' %}">Feeds</a></li>
@@ -75,27 +115,11 @@
             <li><a href="../navbar-static-top/">Static top</a></li>
             
             <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li>
+            
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+      {% endif %}
 
-      <!-- <div class="nav navbar-collapse"> -->
-          <!-- <div class="col-md-9 col-offset-md-3"> -->
-        
-        
-          <!-- <ul class="nav nav-tabs">
-            <li class="{% navactive request 'notes:home' %}"><a href="{% url 'notes:home' %}">Home</a></li>
-            <li class="{% navactive request 'feeds' %}"><a href="{% url 'feeds' %}">Feeds</a></li>
-            <li><a href="/ ">Reviews</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tech <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="tech.html">Action</a></li>
-         <li><a href="tech.html">Action</a></li>
-          <li><a href="tech.html">Action</a></li>
-              </ul>
-            </li>
-          </ul>
-          
-      </div> -->
+      

@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,6 +78,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # my middlewares
+    'notes.middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'billable.urls'
@@ -147,6 +150,8 @@ REGISTRATION_AUTO_LOGIN = True
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
+# security login url suffixes
+LOGIN_EXCEPTION_URL_SUFFIX_LIST = ['/accounts/login/', '/accounts/register/', '/accounts/password/']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

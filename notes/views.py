@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from actstream import action
 from actstream.models import Action
 from actstream.views import stream
+# from actstream.models import actor_stream
 # project imports
 from .models import NoteBook
 from .forms import NotebookForm, NotebookUpdateForm
@@ -31,36 +32,6 @@ class NoteMixinDetailView(object):
 		context['notebook_views'] = ["ajax", "detail", "detail-with-count"]
 		return context
 
-class FeedView(ListView):
-	model = Action
-	template_name = 'feeds/feeds.html'
-	queryset = Action.objects.all()
-	context_object_name = 'actions'
-
-	def __init__(self, *args, **kwargs):
-
-		'''
-		Adding an extra initializating which will be used in the methods below
-		'''
-
-		super(FeedView, self).__init__(*args, **kwargs)
-		self.context_list = []
-
-	def get_context_data(self, **kwargs):
-		'''
-		In this case we are getting all the actions that a user has done that where the
-		user isnt the person logged in. So we check the list and filter out all the users
-		not who is not self.request.user
-		'''
-		from actstream.models import actor_stream
-		print(actor_stream(self.request.user))
-		context = super(FeedView, self).get_context_data(**kwargs)
-		for action in self.queryset:
-			if str(action.actor) != str(self.request.user) and\
-			 str(action.target) != str(self.request.user):
-			 	self.context_list.append(action)	
-		context['user_activity'] = self.context_list
-		return context
 
 
 
@@ -83,6 +54,8 @@ class NoteBookDetailView(NoteMixinDetailView, DetailView):
 		duration = timezone.now() - self.object.created_on
 		context['duration'] = duration
 		return context
+notes_detail = NoteBookDetailView.as_view()
+notes_detail.login_required = False
 
 class NoteBookBaseEditMixin(object):
 	model=NoteBook

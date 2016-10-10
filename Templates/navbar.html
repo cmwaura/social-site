@@ -63,23 +63,7 @@
           <a id="navbar-brand" class="navbar-brand" href="/">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <!-- <ul id="navbar-nav" class="nav navbar-nav">
-            <li class="active"><a href="{% url 'notes:home' %}">Home</a></li>
-            <li><a href="{% url 'notes:home' %}">About</a></li>
-            <li><a href="{% url 'notes:home' %}">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul> -->
+          
 
     <!-- <div class="row"> -->
     {% if request.user.is_authenticated %}
@@ -96,13 +80,13 @@
           <ul class="nav navbar-nav navbar-right">
 
             
-          <li><a href="{% url 'profile' slug=user.username %}">
+          <li><a href="{% url 'profile' slug=request.user.username %}">
                         <span class="glyphicon glyphicon-user"></span> 
                         Profile</a></li>
            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
             <!-- <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li> -->
           {% else %}
-            <li class="active pull-right" style="padding:15px"><a href="{% url 'registration_register' %}">Register <span class="sr-only">(current)</span></a></li>
+            <li class="active pull-right" style="padding:15px; list-style-type: none;"><a href="{% url 'registration_register' %}">Register <span class="sr-only">(current)</span></a></li>
             
           {% endif %}
           </ul>

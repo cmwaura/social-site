@@ -25,14 +25,15 @@ from accounts.views import UserProfileDetailView as user_profile
 from accounts.views import base_tester
 from accounts.views import RegistrationActivation as activation_url
 
-from notes.views import FeedView as feeds
+from newsfeed.views import NewsFeedListView as feeds
 from notes.views import ActivityStreamDeleteView as stream_delete
 from notes.views import tag_page as tag_page
 from notes.views import search as search
 
 urlpatterns = [
+    url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', base_tester, name='base'),
+    url(r'^$', feeds.as_view(), name='feeds'),
     url(r'^users/edit-profile/$', user_edit.as_view(), name='edit_profile'), 
     url(r'^users/(?P<slug>[\w-]+)/$', user_profile.as_view(), name="profile"),
     url(r'^activity/', include('actstream.urls')),  
@@ -42,7 +43,6 @@ urlpatterns = [
     url(r'^tag/(?P<tag>[\w-]+)/$', tag_page, name="tag_page"),
     url(r'^notes/', include('notes.urls', namespace='notes')),
     url(r'^newsfeed/', include('newsfeed.urls', namespace='newsfeed')),
-    url(r'^feeds/', feeds.as_view(), name='feeds'),
     url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^messages/', include('postman.urls', namespace='postman')),

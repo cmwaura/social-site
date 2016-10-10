@@ -7,7 +7,7 @@ class NewsFeed(models.Model):
 
 	newsfeed = models.CharField(max_length=140, blank =False, null=False)
 	submitter = models.ForeignKey(User)
-	created_on = models.DateTimeField(auto_now_add=True, auto_now=False)
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 	updated_on = models.DateTimeField(auto_now_add=False, auto_now=True)
 	active = models.BooleanField(default=True)
 	featured = models.BooleanField(default=False)

@@ -4,7 +4,7 @@ from .views import NoteBookCreateView as ncreate_view
 from .views import NoteBookUpdateView as nupdate_view
 from .views import NoteBookDeleteView as ndelete_view
 from .views import thank_you as thank_you
-from .views import NoteBookDetailView as ndetail_view
+from .views import notes_detail as ndetail_view
 
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
 	url(r'^delete/(?P<slug>[\w-]+)/$', ndelete_view.as_view(), name='delete-view'),
 	url(r'^create/', ncreate_view.as_view(), name='create-view'),
 	url(r'thanks/', thank_you, name='thanks'),	
-	url(r'^(?P<slug>[\w-]+)/$', ndetail_view.as_view(), name='single-notes'),
+	url(r'^(?P<slug>[\w-]+)/$', ndetail_view, name='single-notes'),
 	
 	
 ]
