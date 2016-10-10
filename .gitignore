@@ -1,15 +1,19 @@
-*.pyc
-*.jpg
-*.png
-*.jpeg
-
+# databases
 db.sqlite3
-__pycache__
-migrations
+*.db
 
 #python files
 
 config.py
 todo.txt
 
+#files and folders
+
+*.pyc
+*.jpg
+*.png
+*.jpeg
 *.min.js
+__pycache__
+migrations
+staticfiles
