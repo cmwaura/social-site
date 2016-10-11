@@ -56,8 +56,26 @@
 <!--     <script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
  -->    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+    $(document).ready(function(){
+        $('input').keyup(updateCount);
+        $('input').keydown(updateCount);
 
+    function updateCount() {
+        var cs = $(this).val().length;
+        $('#characters').text(cs);
+    }
+  });</script>
+    <script>
+    
+    function toggleDiv(divId){
+      $("#toggle-feeds").toggle();
+      $("#kept-toggle").toggleClass('col-md-offset-1 col-md-offset-3');
+      $("#toggle-icon").toggleClass('fa-toggle-off fa-toggle-on');
+    }
 
+  
+</script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>

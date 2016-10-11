@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^notes/', include('notes.urls', namespace='notes')),
     url(r'^newsfeed/', include('newsfeed.urls', namespace='newsfeed')),
     url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),
+    url(r'^photologue/', include('photologue.urls', namespace='photologue')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^messages/', include('postman.urls', namespace='postman')),
     url(r'^s/$', search, name='search'),

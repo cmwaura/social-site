@@ -18,3 +18,4 @@ class NewsFeed(models.Model):
 		return self.newsfeed
 
 	
+   

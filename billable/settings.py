@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'taggit',
     'django_summernote',
     'hitcount',
+    'photologue',
+    'sortedm2m',
     
     'django_comments',
     'friendship',
@@ -102,6 +104,8 @@ TEMPLATES = [
 
 ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: "/users/%s/" % u.username,
+    # 'newsfeed.newsfeed': lambda o: "/%s/" % o.pk,
+
 }
 
 WSGI_APPLICATION = 'billable.wsgi.application'

@@ -16,56 +16,73 @@
 	padding-left: 55px;
 
 }
+.delete-feed{
+	float:right;
+
+}
+.input-group{
+	padding-right: 15px !important;
+}
+#characters {
+	float: right;
+}
+#id{
+	margin-left: 20px;
+}
+.toggler{
+
+	color: #20457C;
+	padding: 5px 10px;
+	float: right;
+
+}
+/*fa fa css*/
+.fa-toggle-on{
+	color: #5E3448 !important;
+}
 </style>
+
 <div class="container">
+ <div class="drop-actions">
+
+     	<a class="toggler" href="javascript:toggleDiv('toggle-feeds');">
+     	<i id="toggle-icon" class="fa fa-toggle-off">Toggle</i></a>
+     </div>
 	<div class="row">
-		<div class="col-md-6 col-md-offset-2">
-			<form class='form-group row' method="POST" action="{% url 'newsfeed:create-view' %}">{%csrf_token %}          		
+		<div  class="col-md-6 col-md-offset-3">
+	<form class='form-group row' method="POST" action="{% url 'newsfeed:create-view' %}">{%csrf_token %}          		
 			    <div class="input-group">
-			      <input type="text" class="form-control"  name='newsfeed' placeholder="what's on your mind">
+			      <input type="text" class="form-control"  name='newsfeed' placeholder="what's on your mind.. 150 chars max">
+
 			      <span class="input-group-btn">
 			        <button class="btn btn-default" type="submit">Save!</button>
 			      </span>
+			      <span id="characters"></span>
 			    </div><!-- /input-group -->
 			  
 			  <br>
           	</form>
+     </div>
+     </div>
 
+         <div class="row">
+		<div id="toggle-feeds" class="col-md-4">
+			
+				
   			
 				{% for activity in user_activity %}
 				<p class="row feeds">
-					{% if activity.newsfeed %}
-						<i class="fa fa-feed"></i>
-							{% if activity.submitter.userprofile.picture %}
-								<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ activity.submitter.userprofile.picture.url }}" height="42" width="42">
-							{% else %}
-								<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
-							{% endif %}
-
-							{% if activity.submitter.get_absolute_url %}
-
-
-								<a href="{{activity.submitter.get_absolute_url}}">{{ activity.submitter }}</a> {% trans "updated status:" %} 
-								<span class="timer">time: {{ activity.timestamp|timesince }}
-								</span>
-								<div class="status">
-									<q>{{activity.newsfeed}}</q>
-								</div>
-							{% else %}
-
-								{{activity.actor}} {{activity.verb}} {{activity.target}}
-						
-							{% endif %}
-					{% else %}
-						<span class=" glyphicon {% if activity.verb ==  'created' %}
-							 glyphicon-ok-circle
-							{% elif activity.verb == 'updated' %}
-							glyphicon-cog
-							{% elif activity.verb == 'deleted' %}
-							glyphicon-remove
-							{% else %}
-							glyphicon-ok
-							{% endif %}"></span>
+							<span class=" glyphicon {% if activity.verb ==  'created' %}
+								 glyphicon-ok-circle
+								{% elif activity.verb == 'updated' %}
+								glyphicon-cog
+								{% elif activity.verb == 'deleted' %}
+								glyphicon-remove
+								{% else %}
+								glyphicon-ok
+								{% endif %}">
+									
+							</span>
 							{% if activity.actor.userprofile.picture %}
 							<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ activity.actor.userprofile.picture.url }}" height="42" width="42">
 							{% else %}
@@ -77,8 +94,8 @@
 
 							<a href="{{activity.action_object.get_absolute_url}}">{{ activity.actor }}</a> {{ activity.verb }} 
 							<a href="{{activity.target.get_absolute_url}}">{{ activity.target }}</a>
-							<span class="timer">time: {{ activity.timestamp|timesince }} {% trans "ago" %}
-								</span>
+							<div>time: {{ activity.timestamp|timesince }} {% trans "ago" %}
+								</div>
 							
 
 
@@ -87,24 +104,70 @@
 							{{activity.actor}} {{activity.verb}} {{activity.target}}
 							
 							{% endif %}
-					{% endif %}
+					
+
+						</p>
+					<hr>
+
+					
+
+				{% endfor %}
+				</div>
+		
+
+
+		<div id="kept-toggle" class="col-md-6 col-md-offset-1">
+			
+				
+  			
+				{% for feed in feeds %}
+				<p class="status-update">
+							<span class=" fa fa-microphone">
+									
+							</span>
+							{% if feed.submitter.userprofile.picture %}
+							<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ feed.submitter.userprofile.picture.url }}" height="42" width="42">
+							{% else %}
+							<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
+							{% endif %}
+
+							{% if feed.submitter.get_absolute_url %}
+
+
+							<a href="{{feed.submitter.get_absolute_url}}">{{ feed.submitter }}</a> {% trans "posted an update" %} 
+							
+							<span class="timer">time: {{ feed.timestamp|timesince }} {% trans "ago" %}
+								</span>
+							<div class="status"> 
+							<q>{{feed.newsfeed}}</q>
+							<span class="delete-feed">
+							
+
+							<a href="{% url 'newsfeed:delete-feed' pk=feed.pk %}">
+								<i class="fa fa-trash"> Delete</i>
+							</a>
+							</span>
+
+							</div>
+							
+
+
+							{% else %}
+
+							{{activity.actor}} {{activity.verb}} {{activity.target}}
+							
+							{% endif %}
+					
 
 						</p>
 
 					<p class="timer"> </p>
 					<hr>
 
-					<!-- <div class="row">
-
-					{{ activity.actor}}
-						
-					{{activity.verb}}
-					{{activity.target}}
-					{{activity.timestamp|timesince}}
 					
-					</div> -->
 
 				{% endfor %}
+
 
 
 			
