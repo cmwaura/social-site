@@ -66,4 +66,9 @@ class NotebookForm(NoteBookFormBase):
 class NotebookUpdateForm(NoteBookFormBase):
 
 	class Meta(NoteBookFormBase.Meta):
+		'''
+		
+		exclude some of the fields from the meta class of NoteBookFormBase
+
+		'''
 		exclude = ("tags", "published")

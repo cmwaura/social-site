@@ -61,11 +61,20 @@ class NoteBookBaseEditMixin(object):
 	model=NoteBook
 	success_url = '/notes/thanks'
 
+	def send_action(self, verb,  form):
+		'''
+		sends a signal back to the db with the action that the user did to later display
+		it on the profile page
+		'''
+
+		activity = action.send(self.request.user, verb=verb, target=form.instance)
+		return activity	
+
 class NoteBookCreateView(NoteBookBaseEditMixin, CreateView):
 	form_class = NotebookForm
 	template_name = 'notes/forms.html'
 	slug_field = 'slug'
-		
+
 	def form_valid(self, form):
 
 		self.object = form.save(commit=False)
@@ -75,18 +84,29 @@ class NoteBookCreateView(NoteBookBaseEditMixin, CreateView):
 		
 		self.object.save()
 		form.save_m2m()
-
-		action.send(self.request.user, verb='created', target=form.instance)
+		action_sent = self.send_action("created", form)
 
 		return super(NoteBookCreateView, self).form_valid(form)
 
-class NoteBookUpdateView(UpdateView):
+class NoteBookUpdateView(NoteBookBaseEditMixin, UpdateView):
 	'''
 	Update view to support the user editting their notebooks.
 	'''
 	model = NoteBook
 	form_class = NotebookUpdateForm
 	template_name='notes/update-form.html'
+
+	def form_valid(self, form):
+
+		self.object = form.save(commit=False)
+		self.object.title= form.clean_title() 
+		self.object.text = form.clean_text()
+		self.object.submitter = self.request.user
+		
+		self.object.save()
+		action_sent = self.send_action("updated", form)
+
+		return super(NoteBookUpdateView, self).form_valid(form)
 
 class NoteBookDeleteView(DeleteView):
 	'''

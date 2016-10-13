@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse_lazy
 
 from actstream import action
 from actstream.views import stream
-from actstream.models import Action, actor_stream
+from actstream.models import Action, actor_stream, user_stream
 
 from .models import NewsFeed
 from .forms import NewsFeedForm
@@ -80,13 +80,13 @@ class NewsFeedListView(NewsFeedMixin, ListView):
 			made as a list.
 
 		'''
+		actions = user_stream(self.request.user)[:4]
+		# for action in Action.objects.all():
+		# 	if str(action.actor) != str(self.request.user) and\
+		# 	 str(action.target) != str(self.request.user):
+		# 	 	self.context_list.append(action)
 		
-		for action in Action.objects.all():
-			if str(action.actor) != str(self.request.user) and\
-			 str(action.target) != str(self.request.user):
-			 	self.context_list.append(action)
-		
-		return self.context_list
+		return actions
 	
 
 class NewsFeedDeleteView(DeleteView):

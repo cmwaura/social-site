@@ -1,3 +1,7 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
 <style>
 .banner {
 	padding: 10em 0 0;
@@ -17,9 +21,21 @@
 	background-color: yellow;
 	cursor:pointer;
 }
+.tc-ch h3 {
+	margin: 0.5em 0 0;
+	font-size: 1.7em;
+	padding-bottom: -5px;
+	margin-bottom: -5px;
+}
+.tc-ch p {
+	color: #777;
+	font-size: 0.875em;
+	line-height: 1.8em;
+	margin:0;
+}
 </style>
-{% extends 'base.html' %}
-{% load static %}
+
+{% endblock %}
 {% block content %}	<!--start-main-->
 <div class="header">
 
@@ -35,22 +51,19 @@
 		<div class="tech-no">
 			<!-- technology-top -->
 			{% for notes in notebook_list %}
-			<div class="soci">
-				<ul>
-					<li><a href="#" class="facebook-1"> </a></li>
-					<li><a href="#" class="facebook-1 twitter"> </a></li>
-					<li><a href="#" class="facebook-1 chrome"> </a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-envelope"> </i></a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-print"> </i></a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-plus"> </i></a></li>
-				</ul>
-			</div>
+			{#  #}
 			 <div class="tc-ch">
-				
+					{% if notes.banner %}
 					<div class="tch-img">
-						<a href="singlepage.html"><img src="{% static 'img/1.jpg' %}"" class="img-responsive" alt=""/></a>
+					
+						<a href="singlepage.html"><img src="{{ MEDIA_URL }}{{ notes.banner.url }}" class="img-responsive" alt=""/></a>
+					
+
 					</div>
+					{% if notes.tags.all.0 %}
 					<a class="blog blue" href="/tag/{{tags}}">{{ notes.tags.all.0 }}</a>
+					{% endif %}
+					{% endif %}
 					<h3><a href="{{notes.get_absolute_url}}">{{notes.title}}</a></h3>
 						<p>{{notes.text|truncatewords_html:60|safe}}</p>
 				

@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% block content %}
-{% include 'navbar-tabs.html' %}
-<br>
+{% block styles %}
 <style>
+	
 .timer{
 	float: right;
 	display: block;
@@ -17,7 +16,7 @@
 
 }
 .delete-feed{
-	float:right;
+	float:right !important;
 
 }
 .input-group{
@@ -25,6 +24,9 @@
 }
 #characters {
 	float: right;
+}
+#toggle-feeds{
+	border-left:;
 }
 #id{
 	margin-left: 20px;
@@ -42,6 +44,11 @@
 }
 </style>
 
+{% endblock %}
+{% block content %}
+{% include 'navbar-tabs.html' %}
+<br>
+
 <div class="container">
  <div class="drop-actions">
 
@@ -49,7 +56,7 @@
      	<i id="toggle-icon" class="fa fa-toggle-off">Toggle</i></a>
      </div>
 	<div class="row">
-		<div  class="col-md-6 col-md-offset-3">
+		<div  class="col-xs-10 col-md-6 col-md-offset-3">
 	<form class='form-group row' method="POST" action="{% url 'newsfeed:create-view' %}">{%csrf_token %}          		
 			    <div class="input-group">
 			      <input type="text" class="form-control"  name='newsfeed' placeholder="what's on your mind.. 150 chars max">
@@ -66,7 +73,67 @@
      </div>
 
          <div class="row">
-		<div id="toggle-feeds" class="col-md-4">
+		
+
+		<div id="kept-toggle" class="col-xs-6 col-xs-offset-0 col-md-6  col-md-offset-1">
+			
+				
+  			
+				{% for feed in feeds %}
+				<p class="status-update">
+							<span class=" fa fa-microphone">
+									
+							</span>
+							{% if feed.submitter.userprofile.picture %}
+							<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ feed.submitter.userprofile.picture.url }}" height="42" width="42">
+							{% else %}
+							<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
+							{% endif %}
+
+							{% if feed.submitter.get_absolute_url %}
+
+
+							<a href="{{feed.submitter.get_absolute_url}}">{{ feed.submitter }}</a> {% trans "posted an update" %} 
+							
+							<span class="timer">time: {{ feed.timestamp|timesince }} {% trans "ago" %}
+								</span>
+							<div class="status"> 
+								<q>{{feed.newsfeed}}</q>
+
+								{% if feed.submitter == request.user %}
+
+									<span class="delete-feed">
+									
+										<a href="{% url 'newsfeed:delete-feed' pk=feed.pk %}">
+											<i class="fa fa-trash"> Delete</i>
+										</a>
+									</span>
+								{% endif %}
+							</div>
+							
+
+
+							{% else %}
+
+							{{activity.actor}} {{activity.verb}} {{activity.target}}
+							
+							{% endif %}
+					
+
+						</p>
+
+					<p class="timer"> </p>
+					<hr>
+
+					
+
+				{% endfor %}
+
+
+
+			
+      	</div>
+      	<div id="toggle-feeds" class="col-xs-3 col-xs-offset-2 col-md-3 col-md-offset-1">
 			
 				
   			
@@ -83,11 +150,7 @@
 								{% endif %}">
 									
 							</span>
-							{% if activity.actor.userprofile.picture %}
-							<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ activity.actor.userprofile.picture.url }}" height="42" width="42">
-							{% else %}
-							<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
-							{% endif %}
+							
 
 							{% if activity.actor.get_absolute_url %}
 
@@ -115,63 +178,6 @@
 				</div>
 		
 
-
-		<div id="kept-toggle" class="col-md-6 col-md-offset-1">
-			
-				
-  			
-				{% for feed in feeds %}
-				<p class="status-update">
-							<span class=" fa fa-microphone">
-									
-							</span>
-							{% if feed.submitter.userprofile.picture %}
-							<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ feed.submitter.userprofile.picture.url }}" height="42" width="42">
-							{% else %}
-							<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
-							{% endif %}
-
-							{% if feed.submitter.get_absolute_url %}
-
-
-							<a href="{{feed.submitter.get_absolute_url}}">{{ feed.submitter }}</a> {% trans "posted an update" %} 
-							
-							<span class="timer">time: {{ feed.timestamp|timesince }} {% trans "ago" %}
-								</span>
-							<div class="status"> 
-							<q>{{feed.newsfeed}}</q>
-							<span class="delete-feed">
-							
-
-							<a href="{% url 'newsfeed:delete-feed' pk=feed.pk %}">
-								<i class="fa fa-trash"> Delete</i>
-							</a>
-							</span>
-
-							</div>
-							
-
-
-							{% else %}
-
-							{{activity.actor}} {{activity.verb}} {{activity.target}}
-							
-							{% endif %}
-					
-
-						</p>
-
-					<p class="timer"> </p>
-					<hr>
-
-					
-
-				{% endfor %}
-
-
-
-			
-      	</div>
   	</div>
 </div>
 

@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import os
+import os, sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -54,13 +54,15 @@ INSTALLED_APPS = [
     'sortedm2m',
     
     'django_comments',
-    'friendship',
+    # 'friendship',
     'postman',
     'mptt',
+    # developer assistance apps
+    'django_extensions',
     #developer created apps
     'accounts',
    	'notes',
-    'comments',
+
     'newsfeed',
     'actstream',
 
@@ -68,7 +70,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 
-COMMENTS_APP = 'comments'
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
@@ -213,6 +215,62 @@ SUMMERNOTE_CONFIG = {
 #     'USE_JSONFIELD': True,
     
 # } 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    # Formatting of messages.
+    'formatters': {
+        # Don't need to show the time when logging to console.
+        'console': {
+            'format': '%(levelname)s %(name)s.%(funcName)s (%(lineno)d) %(message)s'
+        }
+    },
+    # The handlers decide what we should do with a logging message - do we email
+    # it, ditch it, or write it to a file?
+    'handlers': {
+        # Writing to console. Use only in dev.
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+        # Send logs to /dev/null.
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+    },
+    # Loggers decide what is logged.
+    'loggers': {
+        '': {
+            # Default (suitable for dev) is to log to console.
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'photologue': {
+            # Default (suitable for dev) is to log to console.
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # logging of SQL statements. Default is to ditch them (send them to
+        # null). Note that this logger only works if DEBUG = True.
+        'django.db.backends': {
+            'handlers': ['null'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}
+
+# Don't display logging messages to console during unit test runs.
+if len(sys.argv) > 1 and sys.argv[1] == 'test':
+    LOGGING['loggers']['']['handlers'] = ['null']
+LOGGING['loggers']['photologue']['handlers'] = ['null']
+
+
+
 # Postman Settings
 
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
@@ -230,3 +288,7 @@ POSTMAN_AUTOCOMPLETER_APP = {
     'arg_name': '',  # default is 'channel'
     'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
 }  # default is {}
+
+# Photologue Settings
+
+PHOTOLOGUE_IMAGE_FIELD_MAX_LENGTH = 200

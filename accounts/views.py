@@ -21,6 +21,7 @@ from actstream.models import actor_stream
 from .utils import generate_new
 
 user = get_user_model()
+
 # Create your views here.
 
 class UserProfileDetailView(DetailView):
@@ -34,12 +35,24 @@ class UserProfileDetailView(DetailView):
 		return user
 
 	def get_user_followee(self):
+		'''
+		people that the self.request.user is following
+		'''
+
 		followee = following(self.request.user)
 		return followee
 
 	def get_user_followers(self):
-		follower = followers(self.request.user)
+		'''
+		people that follow self.request.user
+		'''
+
+		follower = followers(self.request.user)[:6]
 		return follower
+
+	def get_follower_count(self):
+		follower_count = len(followers(self.request.user))
+		return follower_count
 
 	def get_context_data(self, **kwargs):
 		'''
@@ -56,6 +69,7 @@ class UserProfileDetailView(DetailView):
 		# getting the user followers and user followee based on the user
 		context['followers'] = self.get_user_followers()
 		context['followees'] = self.get_user_followee()
+		context['follower_count'] = self.get_follower_count()
 		return context
 
 		

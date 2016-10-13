@@ -2,13 +2,14 @@
 {% load static %}
 {% load comments %}
 {% load crispy_forms_tags %}
-{% block content %}
+{% block styles %}
 <style>
 .technology-left {
 	width: 70%;
-	border: 2px solid #a1a1a1;
-	border-radius: 10px !important;
-	box-shadow: 10px 10px 5px #888888;
+	border-right: thin solid #a1a1a1;
+	margin-top: -22px;
+	/*border-radius: 10px !important;
+	box-shadow: 10px 10px 5px #888888;*/
 }
 .comment-bottom input[type="text"], .comment-bottom textarea {
 	background: none;
@@ -27,7 +28,12 @@
 	font-weight: 550;
 	padding-bottom: -5px;
 }
+
 </style>
+{% endblock %}
+
+{% block content %}
+
 <div class="header">
 {% include 'navbar-tabs.html' %}
 	</div>
@@ -36,10 +42,12 @@
 <!-- technology -->
 <div class="technology-1">
 	<div class="container">
-		<div class="col-md-9 technology-left">
+		<div class="col-md-9 col-xs-9 technology-left">
 			<div class="business">
 				<div class=" blog-grid2">
-					<img src="{% static 'img/1.jpg' %}" class="img-responsive" alt="">
+				{% if notepage.banner %}					
+					<a href="singlepage.html"><img src="{{ MEDIA_URL }}{{ notepage.banner.url }}" class="img-responsive" alt=""/></a>			
+				{% endif %}
 					<div class="blog-text">
 						<h5 style="text-align:center;">{{notepage.title}}</h5>
 						<hr/>

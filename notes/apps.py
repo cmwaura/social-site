@@ -2,8 +2,6 @@
 from django.apps import AppConfig,apps
 import accounts
 import newsfeed 
-
-
 class NotesConfig(AppConfig):
     name = 'notes'
 

@@ -1,14 +1,7 @@
 {% extends 'base.html' %}
 {% load activity_tags %}
 
-
-
-
-
-{% block content %}
-
-{% include 'navbar-tabs.html' %}
-
+{% block styles %} 
 <style>
 /* Profile container */
 .profile {
@@ -123,7 +116,20 @@
 	box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 	cursor: pointer;
 }
+.follower_count{
+	float: right;
+}
 </style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+{% include 'navbar-tabs.html' %}
+
+
 <div class="container">
     <div class="row profile">
 		<div class="col-md-3">
@@ -199,15 +205,30 @@
 				<hr/>
 				<!-- SIDEBAR MENU -->
 				<div class="profile-userfollowee">
+				
 					<ul class="nav">
 					{# user followees #}
-					{% if request.user == user %}
-						{% for followee in followees %}
-						<li class="active">
-							<a href= "{{ followee.get_absolute_url }}">{{followee}}</a>							
-						</li>
+
+					<div class="user-followers">
+						{{ user.username }}'s followers:
+							<span class="follower_count">{{follower_count}}</span>
+					</div>
+					<br/>
+						{% for follower in followers %}
+						<div class="col-md-4">
+							{% if follower.userprofile.picture %}
+								<img src="{{ MEDIA_URL }}{{follower.userprofile.picture.url}}" width="50" height="50">
+							{% else %}
+								<img src="http://placehold.it/50x50">
+								
+							{% endif %}
+						
+						
+							<a href= "{{ follower.get_absolute_url }}"> {{follower}}</a>	
+						</div>						
+						
 						{% endfor %}
-					{% endif %}
+					
 					</ul>
 				</div>
 				<!-- END MENU -->
