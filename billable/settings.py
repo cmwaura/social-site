@@ -50,9 +50,11 @@ INSTALLED_APPS = [
     'taggit',
     'django_summernote',
     'hitcount',
-    'photologue',
-    'sortedm2m',
     
+    
+    'imagestore',
+    'sorl.thumbnail',
+    'tagging',
     'django_comments',
     # 'friendship',
     'postman',

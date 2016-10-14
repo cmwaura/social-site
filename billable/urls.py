@@ -31,7 +31,6 @@ from notes.views import tag_page as tag_page
 from notes.views import search as search
 # # to be fixed 
 
-
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
@@ -46,7 +45,7 @@ urlpatterns = [
     url(r'^notes/', include('notes.urls', namespace='notes')),
     url(r'^newsfeed/', include('newsfeed.urls', namespace='newsfeed')),
     url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),
-    url(r'^images/', include('photologue.urls', namespace='photologue')),
+    url(r'^gallery/', include('imagestore.urls', namespace='imagestore')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^messages/', include('postman.urls', namespace='postman')),
     url(r'^s/$', search, name='search'),

@@ -3,12 +3,12 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-
 #third party imports
+
+from hitcount.views import HitCountDetailView
 
 from actstream import action
 from actstream.models import Action
@@ -28,7 +28,6 @@ class NoteMixinDetailView(object):
 
 	def get_context_data(self, **kwargs):
 		context = super(NoteMixinDetailView, self).get_context_data(**kwargs)
-		context['notebook_list'] = NoteBook.objects.all()
 		context['notebook_views'] = ["ajax", "detail", "detail-with-count"]
 		return context
 
@@ -44,16 +43,18 @@ notes = NoteBookListView.as_view()
 notes.login_required = False
 
 
-class NoteBookDetailView(NoteMixinDetailView, DetailView):
-	# model = NoteBook
+class NoteBookDetailView(NoteMixinDetailView, HitCountDetailView, DetailView):
 	template_name = 'notes/single.html'
 	context_object_name = 'notepage'
+	count_hit = True
 
 	def get_context_data(self, **kwargs):
 		context = super(NoteBookDetailView, self).get_context_data(**kwargs)
 		duration = timezone.now() - self.object.created_on
 		context['duration'] = duration
 		return context
+	
+
 notes_detail = NoteBookDetailView.as_view()
 notes_detail.login_required = False
 

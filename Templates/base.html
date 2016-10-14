@@ -19,6 +19,8 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/postman/postman.css' %}" rel="stylesheet">
     <link href="{% static 'css/postman/admin.css' %}" rel="stylesheet">
+    <link href="{% static 'css/imagestore.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/prettyPhoto.css' %}" type="text/css" media="screen" charset="utf-8" />
   {% block extrahead %}{% endblock %}
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -40,12 +42,13 @@
       {% block postman_menu %}
 
       {% endblock %}
+      {% block imagestore-breadcrumb %}{% endblock %}
+      {% block imagestore-info %}{% endblock %}
       <!-- Main component for a primary marketing message or call to action -->
-      {% block content %}
-      
+      {% block content %} {% endblock %}
+      {% block controls %}{% endblock %} 
+      {% block imagestore-related %} {% endblock %}      
 
-      {% endblock %}
-      
      <!-- /container -->
 
 
@@ -56,7 +59,11 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <!--     <script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
  -->    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+      <script src="{% static 'js/jquery-1.6.1.min.js' %}"></script>
+
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.prettyPhoto.js' %}" type="text/javascript" charset="utf-8"></script>
+
     <script>
     $(document).ready(function(){
         $('input').keyup(updateCount);
@@ -66,7 +73,8 @@
         var cs = $(this).val().length;
         $('#characters').text(cs);
     }
-  });</script>
+  });
+    </script>
     <script>
     
     function toggleDiv(divId){
@@ -78,6 +86,14 @@
     }
 
   
+</script>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $("a[rel^='prettyPhoto']").prettyPhoto({
+      theme: 'light_rounded',
+    });
+
+  });
 </script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
