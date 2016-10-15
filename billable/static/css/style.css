@@ -10,7 +10,7 @@ html, body{
 }
 * {
 
-  border-radius: 0 !important;
+  border-radius: 3px !important;
 }
 body a,.grid_1,plan_1,plan_1.one,plan_1.two,i.icon1, i.icon2, i.icon3, i.icon4, i.icon5, i.icon6 {
 	transition:0.5s all;
@@ -35,7 +35,7 @@ input[type="button"],input[type="submit"],li.parallelogram{
 }
 h1,h2,h3,h4,h5,h6{
 	margin:0;
-     font-family: 'normal;
+    font-family: 'normal';
 }	
 p{
 	margin:0;

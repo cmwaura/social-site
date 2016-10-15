@@ -77,6 +77,14 @@
       .navbar-toggle.collapsed .third {
         transform: rotate(0) !important;
       }
+      #nav-tabs-feeds{
+        border-bottom: 2px solid #20457c;
+        border-radius: 0px !important;
+      }
+      #nav-tabs-contact{
+        border-bottom: 2px solid #FB6648;
+        border-radius: 0px !important;
+      }
       </style>
       <!-- <div class="header-top"></div> -->
         <!-- Fixed navbar -->
@@ -94,9 +102,9 @@
         </div>
         <div id="navbar-second" class="navbar-collapse collapse">
           <ul id="navbar-middle-tabs" class="nav navbar-nav">
-            <li class="{% navactive request 'feeds' %}"><a href="{% url 'feeds' %}">Home</a></li>
+            <li id="nav-tabs-feeds" class="{% navactive request 'feeds' %}"><a href="{% url 'feeds' %}">Home</a></li>
             <li class="{% navactive request 'notes:home' %}"><a href="{% url 'notes:home' %}">Notes</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li id="nav-tabs-contact"><a href="#contact">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">

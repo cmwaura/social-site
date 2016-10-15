@@ -1,33 +1,37 @@
 {% extends "imagestore/base.html" %}
-{% load i18n %}
+{% load i18n crispy_forms_tags %}
 {% load thumbnail %}
 
 
 {% block title %}
-    {% trans "Create album" %}
+    {% if request.get_full_path == "/gallery/album/add/" %}
+        {% trans "Create album" %}
+    {% else %}
+        {% trans "Edit album" %}
+    {% endif %}
+
 {% endblock %}
 
-{% block imagestore-breadcrumb %}
-    <li>
-        {% if object %}
-            {% trans "Edit album" %}: {{ object.name }}
-        {% else %}
-            {% trans "Create album" %}
-        {% endif %}
-    </li>
-{% endblock %}
 
 {% block content %}
-    <h1>
-        {% if object %}
-            {% trans "Edit album" %}: {{ object.name }}
-        {% else %}
-            {% trans "Create album" %}
-        {% endif %}
-    </h1>
-    <form action="." method="post" class='album-form'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% trans "Save" %}" class='btn success'>
-    </form>
+{% include 'navbar-tabs.html' %}
+<br>
+
+<div class="container">
+        <div class="col-md-4 col-xs-4 col-xs-offset-3 col-md-offset-3">
+            <h1>
+                {% if object %}
+                    {% trans "Edit album" %}: {{ object.name }}
+                {% else %}
+                    {% trans "Create album" %}
+                {% endif %}
+            </h1>
+    
+            <form action="." method="post" class='album-form'>
+            {% csrf_token %}
+            {{ form | crispy }}
+            <input type="submit" value="{% trans "Save" %}" class='btn success'>
+            </form>
+        </div>
+    </div>
 {% endblock content %}

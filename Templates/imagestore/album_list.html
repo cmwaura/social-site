@@ -33,6 +33,7 @@
 {% endblock %}
 
 {% block content %}
+{% include 'navbar-tabs.html' %}
     <h1>{% if view_user %}
         {% trans "Albums for user" %} {{ view_user }}
     {% else %}
@@ -47,7 +48,7 @@
                     <a href="{{ album.get_absolute_url }}">
                     {% if album.get_head %}
                         {% thumbnail album.get_head.image "150x150" crop='center' as album_head %}
-                            <img class="preview" {% if album.name %} alt="{{ album.name }}" {% endif %} src="{{ album_head.url }}">
+                            <img class="preview" rel="prettyPhoto" {% if album.name %} alt="{{ album.name }}" {% endif %} src="{{ album_head.url }}">
                         {% endthumbnail %}
                     {% else %}
                         [{% trans "Empty album" %}]

@@ -1,7 +1,8 @@
-from itertools import chain
-from operator import attrgetter
+from functools import reduce
+
 
 from django.shortcuts import render
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import DeleteView
 from django.contrib.auth import get_user_model
@@ -10,7 +11,7 @@ from django.core.urlresolvers import reverse_lazy
 
 from actstream import action
 from actstream.views import stream
-from actstream.models import Action, actor_stream, user_stream
+from actstream.models import Action, actor_stream, user_stream, following
 
 from .models import NewsFeed
 from .forms import NewsFeedForm
@@ -66,8 +67,13 @@ class NewsFeedListView(NewsFeedMixin, ListView):
 			the check where the actions are added to the context variable if they dont include the user 
 		
 		'''
+		submitters = list(follower for follower in following(self.request.user))
+		submitters.append(self.request.user)
+		query= reduce(lambda q, submitter: q|Q(submitter=submitter), submitters, Q())
+		status_feeds = NewsFeed.objects.filter(query).order_by("-timestamp")
 		action_context_list = self.action_context()
 		context = super(NewsFeedListView, self).get_context_data(**kwargs)
+		context['status_feeds'] = status_feeds
 
 		context['user_activity'] = action_context_list
 		return context
@@ -81,10 +87,6 @@ class NewsFeedListView(NewsFeedMixin, ListView):
 
 		'''
 		actions = user_stream(self.request.user)[:4]
-		# for action in Action.objects.all():
-		# 	if str(action.actor) != str(self.request.user) and\
-		# 	 str(action.target) != str(self.request.user):
-		# 	 	self.context_list.append(action)
 		
 		return actions
 	

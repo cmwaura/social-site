@@ -4,15 +4,11 @@
 {# {% load url from future %}#}
 {% load imagestore_tags %}
 
-{% block imagestore-breadcrumb %}
-    {% with "li" as scope_tag %}
-        {% include "imagestore/image-scope.html" %}
-    {% endwith %}
-{% endblock %}
-
 {% block title %}
     {% include "imagestore/image-scope.html" %}
 {% endblock %}
+
+
 
 {% block imagestore-info %}
     {% if view_user and IMAGESTORE_SHOW_USER %}
@@ -29,38 +25,59 @@
 {% endblock %}
 
 
-{% block controls %}
-    {% if album %}
-        {% if request.user == album.user or perms.imagestore.moderate_albums %}
-            <li><a href='{% url 'imagestore:update-album' pk=album.pk %}'>{% trans "Edit album" %}</a></li>
-        {% endif %}
-    {% endif %}
-{% endblock %}
+{% block styles %}
+<style type="text/css">
+.container-panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    /*border: 1px solid #ddd;*/
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    height: 100%;
+    position:fixed;
+    margin-right: auto;
+    margin-left: 60px;
+}
 
+</style>
+{% endblock %}
 {% block content %}
+{% include 'navbar-tabs.html' %}
+    <br>
+    <div class="container container-panel">
     <h1>
         {% include "imagestore/image-scope.html" %}
     </h1>
     {% include "imagestore/pagination.html" %}
-    <div id="image-thumbnails">
-        {% for image in image_list %}
-            <div class='image-preview'>
-            {% thumbnail image.image "120x120" crop="center" as im %}
-                <a class="thumb" rel='gallery-image[ilist]' href="{{ image.image.url }}">
-                    <img class="preview" {% imagestore_alt image forloop.counter %} src="{{ im.url }}">
-                </a>
-                <a href="{% include "imagestore/image-href.html" %}">
-                    {% if image.title %}
-                        <br><span class='image-title'>{{ image.title }}</span>
-                    {% else %}
-                        {% trans 'Info' %}
-                    {% endif %}
-                </a>
-            {% endthumbnail %}
-            </div>
-        {% endfor %}
+
+        {% if album %}
+        {% if request.user == album.user or perms.imagestore.moderate_albums %}
+            <li class="pull-right"><a href='{% url 'imagestore:update-album' pk=album.pk %}'>{% trans "Edit album" %}</a></li>
+        {% endif %}
+    {% endif %}
+        <div id="image-thumbnails">
+            {% for image in image_list %}
+                <div class='image-preview'>
+                {% thumbnail image.image "120x120" crop="center" as im %}
+                    <a href="{{ image.image.url }}" rel="prettyPhoto[pp_gal]" {% if image.title %} title="{{ image.title }}" {% endif %} >
+                    
+                        <img class="preview" {% imagestore_alt image forloop.counter %} src="{{ im.url }}">
+                    </a>
+                    <a href="{% include "imagestore/image-href.html" %}">
+                        {% if image.title %}
+                            <br><span class='image-title'>{{ image.title }}</span>
+                        {% else %}
+                            {% trans 'Info' %}
+                        {% endif %}
+                    </a>
+                {% endthumbnail %}
+                </div>
+            {% endfor %}
+        </div>
+    
+        {% include "imagestore/pagination.html" %}
     </div>
-    {% include "imagestore/pagination.html" %}
 {% endblock %}
 
 

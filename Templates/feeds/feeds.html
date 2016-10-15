@@ -3,7 +3,12 @@
 {% load i18n %}
 {% block styles %}
 <style>
-	
+hr {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	border: 0;
+	border-top: 1px solid #eee;
+}	
 .timer{
 	float: right;
 	display: block;
@@ -38,7 +43,28 @@
 	float: right;
 
 }
+#toggle-feeds {
+	
+	border: solid thin #20457C;
+}
+#toggle-feeds > h5{
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: -9px;
+
+}
+#toggle-feeds .title-line-breaker{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 0;
+	border-top: 1px solid #5E3448;
+}
 /*fa fa css*/
+.row.feeds {
+	padding-left: 10px;
+	padding-top: 3px;
+}
+
 .fa-toggle-on{
 	color: #5E3448 !important;
 }
@@ -79,7 +105,7 @@
 			
 				
   			
-				{% for feed in feeds %}
+				{% for feed in status_feeds %}
 				<p class="status-update">
 							<span class=" fa fa-microphone">
 									
@@ -135,7 +161,8 @@
       	</div>
       	<div id="toggle-feeds" class="col-xs-3 col-xs-offset-2 col-md-3 col-md-offset-1">
 			
-				
+				<h5> {% trans "Activity" %}</h5>
+				<hr class="title-line-breaker"/>
   			
 				{% for activity in user_activity %}
 				<p class="row feeds">

@@ -3,14 +3,50 @@
 {% load thumbnail %}
 {% load tagging_tags %}
 {# {% load url from future %} #}
+{% block styles %} 
+<style type="text/css">
+#image-view img.preview {
+    display: block;
+    margin: 0 0 0 0;
+}
+.border-container {
+    width: 1170px;
+    border: 1px solid #29445c !important;
+}
+.tagging{
+    margin-left: 10px;
+}
 
+.tag-head {
+    margin-left: 17px;
+    margin-top: -20px;
+    margin-bottom: 5px;
+}
+.fa-tags{
+    margin-bottom:5px;
+}
+
+.previous-link {
+    margin-right: -5px;
+}
+.img-nav {
+    padding-left: 115px;
+}
+.single-img-column {
+    margin-top: 22px;
+}
+.img-container{
+    background-color: #fff;
+}
+</style>
+{% endblock %}
 {% block title %}
     {% trans "Image" %} - {{ image.title }}
 {% endblock %}
 
 {% block imagestore-breadcrumb %}
 {% include 'navbar-tabs.html' %}
-    
+    <br>
 {% endblock %}
 
 {% block imagestore-info %}
@@ -24,54 +60,81 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% if image.title %}<h1>{{ image.title }}</h1>{% endif %}
-        {% if album or tag or view_user %}
-            <h2>
-                    {% include "imagestore/image-scope.html" %}
-            </h2>
-        {% endif %}
-        <div class="image-description">
-            {{ image.description }}
-        </div>
-        <div id="image-view">
-            <div class="navigation">
-                {% if previous %} <a class="previous-link" href="
-                {% with previous as image %}
-                    {% include "imagestore/image-href.html" %}
-                {% endwith %}
-                ">← {% trans "previous image" %}</a> {% endif %}
-                {% if next %} <a class="next-link" href="{% with next as image %}
-                    {% include "imagestore/image-href.html" %}
-                {% endwith %}">{% trans "next image" %} →</a> {% endif %}
+    <div class="img-container container panel panel-default">
+    
+        <div class="col-md-6 col-xs-6 ">
+            
+            <div id="image-view" >
+                <div class="btn-group">
+                    {% if previous %}
+
+                        <a class="btn-default btn-secondary" href="
+                            {% with previous as image %}
+                                {% include "imagestore/image-href.html" %}
+                            {% endwith %}
+                            ">← {% trans "previous" %}
+                        </a> 
+                    {% endif %}
+                    {% if next %} 
+                        <a class=" btn-success btn-secondary" href="{% with next as image %}
+                                                        {% include "imagestore/image-href.html" %}
+                                                    {% endwith %}">{% trans "next image" %} →</a> 
+                    {% endif %}
+                </div>
+                {% thumbnail image.image "600x700" as full_im %}
+                
+                    <img class="thumbnail preview" rel="prettyPhoto" {% if image.title %} alt="{{ image.title }}" {% endif %} src="{{ full_im.url }}" >
+            
+                {% endthumbnail %}
             </div>
-            {% thumbnail image.image "500x500" as full_im %}
-                <img class="thumbnail preview" rel="prettyPhoto" {% if image.title %} alt="{{ image.title }}" {% endif %} src="{{ full_im.url }}" >
-            {% endthumbnail %}
+        </div>
+        <div class="single-img-column col-xs-4 col-md-4 col-xs-offset-1 col-md-offset-1">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    {% if image.title %}<h5>{% trans "Image Title" %} {{ image.title }}</h5>{% endif %}
+
+                    {% if album or tag or view_user %}
+                        <h5>
+                                {% include "imagestore/image-scope.html" %}
+                        </h5>
+                    {% endif %}
+                </div>
+                 
+                <div class="panel-body">
+                    <p> {{ image.description }}</p>
+                </div>
+
+                <div class="tagging">
+                    <p>
+                        <i class="fa fa-tags"></i>
+                        <h5 class="tag-head">{% trans "Tags:" %}</h5>
+                    </p>
+                        {% tags_for_object image as itags %}
+                        {% for tag in itags %}
+                            <a class="btn btn-xs btn-primary" href="{% url 'imagestore:tag' tag.name %}">{{ tag.name }}</a>
+                        {% endfor %}
+                </div>
+                 {% if image.place %}
+                     <div class='place'>
+                        <h2>{% trans "Place" %}</h2>
+                        <a href="{{ image.place.get_absolute_url }}">{{ image.place.name }} →</a>
+                     </div>
+                 {% endif %}
+     
+              
+                <div class="panel-footer clearfix">
+                    {% if request.user == image.user or perms.imagestore.moderate_images %}
+
+                        <div class="pull-right">
+                            <a href="{% url 'imagestore:update-image' image.id %}" class="btn btn-primary">{% trans "Edit info" %}</a>
+                            <a href="{% url 'imagestore:delete-image' image.id %}" class="btn btn-default">{% trans "Delete image" %}</a>
+                        </div>
+               
+                    {% endif %}
+                </div>
+            </div> 
         </div>
     </div>
+</div>
 {% endblock content %}
-
-{% block controls %}
-    {% if request.user == image.user or perms.imagestore.moderate_images %}
-        <li><a href="{% url 'imagestore:update-image' image.id %}">{% trans "Edit info" %}</a></li>
-        <li><a href="{% url 'imagestore:delete-image' image.id %}">{% trans "Delete image" %}</a></li>
-    {% endif %}
-{% endblock %}
-
-{% block imagestore-related %}
-
-     <div class="tagging">
-            <h2>{% trans "Tags" %}</h2>
-            {% tags_for_object image as itags %}
-            {% for tag in itags %}
-                <a href="{% url 'imagestore:tag' tag.name %}">{{ tag.name }}</a>
-            {% endfor %}
-     </div>
-     {% if image.place %}
-         <div class='place'>
-            <h2>{% trans "Place" %}</h2>
-            <a href="{{ image.place.get_absolute_url }}">{{ image.place.name }} →</a>
-         </div>
-     {% endif %}
-{% endblock %}
