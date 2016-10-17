@@ -156,11 +156,11 @@
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
+				{% if  user.username != request.user.username %}
 				<div class="profile-userbuttons">
+				 
 					{% with user=request.user %}
 						<button type="button" onclick="window.location='{% follow_url object %}?next={{request.path}}';" class="btn btn-success btn-sm">
-
-						<!-- <a href="{% follow_url object %}?next={{request.path}}"> -->
 							{% if user|is_following:object %}
 						     
 						        Stop Following
@@ -173,8 +173,9 @@
 						            
 						</button>
 					{% endwith %}
-					<button type="button" class="btn btn-danger btn-sm" onclick="window.location='/messages/inbox';" >Message</button>
+					<button type="button" class="btn btn-danger btn-sm" onclick="window.location='/messages/write';" >Message</button>
 				</div>
+				{% endif %}
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">

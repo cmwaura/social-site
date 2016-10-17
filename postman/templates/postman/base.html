@@ -17,28 +17,48 @@ border-radius: 10px !important;
 	color: #fff;
 	background-color: #20457C;
 }
-.nav > li > a {
+.new-padding, .nav > li > a {
 	position: relative;
 	display: block;
-	padding: 10px 15px;
+	padding: 0px 15px;
 	color: #20457C;
 }
+
 ul {
 	margin: 20px;
 	padding: 0;
 }
+.new-btn{
+	border-bottom: 2px #ff4444 solid;
+	border-radius:0px !important;
+	padding-bottom: 3px;
+	color: #20457C;
+}
+.new-btn:hover{
+	border-bottom: 2px #00C851 solid !important;
+	border-radius:0px;
+}
+#postman_menu > li > a:hover{
+	color:#fff !important;
+	background-color: #33b5e5 !important;
+}
+
+
 </style>
 		<br>
-        <!-- <div id="sidebar-messages">
-            <a href="#" class="btn btn-danger btn-sm btn-block" role="button">COMPOSE</a>
-            <hr /> -->
-            <ul id="postman_menu" class="nav nav-pills pull-right nav-pills-round">
-                <li class="{% navactive request 'postman:inbox' %}"><a href="{% url 'postman:inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
-				<li class="{% navactive request 'postman:sent' %}"><a href="{% url 'postman:sent' %}">{% trans "Sent" %}</a></li>
-				<li class="{% navactive request 'postman:write' %}"><a href="{% url 'postman:write' %}">{% trans "Write" %}</a></li>
-				<li class="{% navactive request 'postman:archives' %}"><a href="{% url 'postman:archives' %}">{% trans "Archives" %}</a></li>
-				<li class="{% navactive request 'postman:trash' %}"><a href="{% url 'postman:trash' %}">{% trans "Trash" %}</a></li>
-			</ul>
-        <!-- </div> -->
+        {# <!-- <div id="sidebar-messages"> #}
+        <div class="row">
+        <ul>
+        
+        <li class="{% navactive request 'postman:write' %} pull-left new-padding "><a class="new-btn" href="{% url 'postman:write' %}">{% trans "Compose" %}</a></li>
+        <span id="postman_menu" class="nav nav-pills pull-right nav-pills-round">         	
 
+            <li id="new-padding-inbox" class="{% navactive request 'postman:inbox' %}"><a class="new-btn-inbox" href="{% url 'postman:inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+			<li class="{% navactive request 'postman:sent' %}"><a href="{% url 'postman:sent' %}">{% trans "Sent" %}</a></li>
+			<li class="{% navactive request 'postman:archives' %}"><a href="{% url 'postman:archives' %}">{% trans "Archives" %}</a></li>
+			<li class="{% navactive request 'postman:trash' %}"><a href="{% url 'postman:trash' %}">{% trans "Trash" %}</a></li>
+		</span>
+         
+       </ul>
+       </div>
 {% endblock %}
