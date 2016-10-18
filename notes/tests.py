@@ -133,10 +133,9 @@ class NoteBookUpdateViewTestView(SetUpTestMixin, TestCase):
 		self.assertTrue('form' in str(response.content))
 
 	def test_update_form(self):
-		notepad = NoteBook.objects.create(title="Second entry", submitter=self.get_user, slug= slugify("Second entry"), text="description")
+		notepad = self.single_notepad
 		update_data = reverse('notes:update-view', args=[notepad.slug])
 		response = self.client.get(update_data)
-		print(response)
 		form =  response.context['form']
 		data = form.initial
 		# Lets change the title and description
@@ -158,3 +157,39 @@ class NoteBookUpdateViewTestView(SetUpTestMixin, TestCase):
 		# see if it contains the description 
 		self.assertEqual(response.context['form'].initial['text'], 'update text')
 
+class NoteBookCreateTestView(SetUpTestMixin, TestCase):
+
+	def setUp(self, *args, **kwargs):
+		super(NoteBookCreateTestView, self).setUp(*args, **kwargs)
+		self.note = NoteBook(title="Second entry", slug= "second-entry", text="description")
+
+	def test_create_view(self):
+		'''
+		Sanity check
+		'''
+		note = self.note
+		response = self.client.get(reverse('notes:create-view'))
+		self.assertEqual(response.status_code, 200)
+		self.assertTrue('form' in str(response.content))
+		data = {
+		'title': 'test',		
+		'text': 'create description',
+		'tags':'tags'
+		}
+		form = NotebookForm(data=data)
+		# login the client
+		self.client.login(username='pete', password='password')
+		# POST the form with the created data
+		
+		self.assertEqual(form.is_valid(), True)
+		r = self.client.post(reverse('notes:create-view'), data)
+		print(response.context['form'].errors)
+		# now lets retrieve our objects to see whether we have created them
+		print(r.content)
+		blog = NoteBook.objects.order_by('-created_on').first()
+		print(blog)
+		print(NoteBook.objects.all())
+		# see if it contains the new title from data['title']=test
+		# see if it contains the description 
+		self.assertEqual(blog.title, 'test')
+		self.assertEqual(blog.text, data['text'])
