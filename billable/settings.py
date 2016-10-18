@@ -24,7 +24,7 @@ from .config import SECRET_KEY
 
 SECRET_KEY = SECRET_KEY
 
-
+TESTING_DEBUG=False
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,8 +85,10 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # my middlewares
-    'notes.middleware.LoginRequiredMiddleware'
-]
+
+] 
+# if TESTING_DEBUG:
+#     MIDDLEWARE_CLASSES.append('notes.middleware.LoginRequiredMiddleware')
 
 ROOT_URLCONF = 'billable.urls'
 

@@ -10,6 +10,7 @@ class NoteBookFormBase(forms.ModelForm):
 	class Meta:
 		model = NoteBook
 		fields = ['title', 'text', 'banner', 'tags', 'published']
+		exclude=("submitter",)
 		
 		widgets ={
 		"text": SummernoteWidget()
