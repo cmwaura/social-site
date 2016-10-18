@@ -72,7 +72,7 @@
 }
 
 .profile-usermenu ul li a {
-  color: #93a3b5;
+ 
   font-size: 14px;
   font-weight: 400;
 }
@@ -173,7 +173,7 @@
 						            
 						</button>
 					{% endwith %}
-					<button type="button" class="btn btn-danger btn-sm" onclick="window.location='/messages/write';" >Message</button>
+					<button type="button" class="btn btn-danger btn-sm" onclick="window.location='{% url "postman:write" user.username %}';" >Message</button>
 				</div>
 				{% endif %}
 				<!-- END SIDEBAR BUTTONS -->

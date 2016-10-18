@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     # 'friendship',
     'postman',
     'mptt',
+    'ajax_select',
     # developer assistance apps
     'django_extensions',
     #developer created apps
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
 
     'newsfeed',
     'actstream',
+
 
 ]
 SITE_ID = 1
@@ -286,12 +288,18 @@ POSTMAN_SHOW_USER_AS = 'get_full_name'  # default is None
 POSTMAN_QUICKREPLY_QUOTE_BODY = True  # default is False
 POSTMAN_NOTIFIER_APP = None  # default is 'notification'
 POSTMAN_MAILER_APP = None  # default is 'mailer'
+
 POSTMAN_AUTOCOMPLETER_APP = {
-    'name': '',  # default is 'ajax_select'
-    'field': '',  # default is 'AutoCompleteField'
-    'arg_name': '',  # default is 'channel'
-    'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
-}  # default is {}
+        'name': 'ajax_select', 
+        'field': 'AutoCompleteField',
+        'arg_name': 'channel', 
+        'arg_default': 'user', # no default, mandatory to enable the feature
+    }
+AJAX_LOOKUP_CHANNELS = {
+    'user': {'model': 'auth.user', 'search_field': 'username'}
+}
+AJAX_SELECT_BOOTSTRAP = True
+AJAX_SELECT_INLINES = 'inline'
 
 # Photologue Settings
 

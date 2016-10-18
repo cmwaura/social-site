@@ -3,7 +3,7 @@
 {% block extrahead %}{{ block.super }}
 {% if autocompleter_app.is_active %}{# using the available admin jQuery is enough #}
 {# should not be necessary since AS v1.3 with AJAX_SELECT_BOOTSTRAP set #}
-{#<script type="text/javascript" src="{% static 'admin/js/jquery.min.js' %}"></script>#}
+<script type="text/javascript" src="{% static 'admin/js/jquery.min.js' %}"></script>
 {% endif %}
 
 {{ form.media }}

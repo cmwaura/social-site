@@ -29,6 +29,7 @@ from newsfeed.views import NewsFeedListView as feeds
 from notes.views import ActivityStreamDeleteView as stream_delete
 from notes.views import tag_page as tag_page
 from notes.views import search as search
+from ajax_select import urls as ajax_select_urls
 # # to be fixed 
 
 urlpatterns = [
@@ -49,6 +50,7 @@ urlpatterns = [
     url(r'^comments/', include('django_comments.urls')),
     url(r'^messages/', include('postman.urls', namespace='postman')),
     url(r'^s/$', search, name='search'),
+    url(r'^ajax_select/', include(ajax_select_urls)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

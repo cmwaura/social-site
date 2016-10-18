@@ -1,10 +1,12 @@
-from django.test import TestCase, RequestFactory
-from .models import NoteBook
-from .forms import NotebookForm, NotebookUpdateForm
-from django.contrib.auth.models import User 
-from actstream.models import Action, actor_stream
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
+
+from django.test import TestCase, RequestFactory
+from django.contrib.auth.models import User 
+from .models import NoteBook
+from .forms import NotebookForm, NotebookUpdateForm
+
+from actstream.models import Action, actor_stream
 
 # Create your tests here.
 
