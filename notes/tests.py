@@ -123,33 +123,34 @@ class NoteBookCreateFormTestView(SetUpTestMixin, TestCase):
 		})
 
 
-# class NoteBookUpdateFormTestView(SetUpTestMixin, TestCase):
+class NoteBookUpdateFormTestView(SetUpTestMixin, TestCase):
 
-# 	def test_update_form(self):
-# 		from django.test import Client
-# 		client = Client().post('/accounts/login/', {'username': 'pete', 'password': 'password'})
+	def test_update_form(self):
+		from django.test import Client
+		client = Client().post('/accounts/login/', {'username': 'pete', 'password': 'password'})
 
 
-# 		notepad = NoteBook.objects.create(title="Second entry", submitter=self.get_user, slug= slugify("Second entry"), text="description")
-# 		update_data = reverse('notes:update-view', args=[notepad.slug])
-# 		response = self.client.get(update_data)
-# 		print(response)
-# 		form =  response.context['form']
-# 		data = form.initial
-# 		# Lets change the title and description
+		notepad = NoteBook.objects.create(title="Second entry", submitter=self.get_user, slug= slugify("Second entry"), text="description")
+		update_data = reverse('notes:update-view', args=[notepad.slug])
+		response = self.client.get(update_data)
+		print(response)
+		form =  response.context['form']
+		data = form.initial
+		# Lets change the title and description
 
-# 		data = {
-# 		'title': 'test',		
-# 		'text': 'update description'
-# 		}
+		data = {
+		'title': 'test',		
+		'text': 'update text'
+		}
 
 		
-# 		# POST the form with the changed data
-# 		r = self.client.post(update_data, data)
-# 		# now lets retrieve our objects to see whether we have changed them
+		# POST the form with the changed data
+		self.client.login(username='pete', password='password')
+		r = self.client.post(update_data, data)
+		# now lets retrieve our objects to see whether we have changed them
 
-# 		response = self.client.get(update_data)
-# 		# see if it contains the new title from data['title']=test
-# 		self.assertContains(response, 'test')
-# 		# see if it contains the description 
-# 		self.assertEqual(response.context['form'].initial['text'], 'update text')
+		response = self.client.get(update_data)
+		# see if it contains the new title from data['title']=test
+		self.assertContains(response, 'test')
+		# see if it contains the description 
+		self.assertEqual(response.context['form'].initial['text'], 'update text')
