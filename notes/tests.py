@@ -123,13 +123,16 @@ class NoteBookCreateFormTestView(SetUpTestMixin, TestCase):
 		})
 
 
-class NoteBookUpdateFormTestView(SetUpTestMixin, TestCase):
+class NoteBookUpdateViewTestView(SetUpTestMixin, TestCase):
+
+	def test_update_view(self):
+		
+		notepad = self.single_notepad
+		response = self.client.get(reverse('notes:update-view', args=[notepad.slug]))
+		self.assertEqual(response.status_code, 200)
+		self.assertTrue('form' in str(response.content))
 
 	def test_update_form(self):
-		from django.test import Client
-		client = Client().post('/accounts/login/', {'username': 'pete', 'password': 'password'})
-
-
 		notepad = NoteBook.objects.create(title="Second entry", submitter=self.get_user, slug= slugify("Second entry"), text="description")
 		update_data = reverse('notes:update-view', args=[notepad.slug])
 		response = self.client.get(update_data)
@@ -154,3 +157,4 @@ class NoteBookUpdateFormTestView(SetUpTestMixin, TestCase):
 		self.assertContains(response, 'test')
 		# see if it contains the description 
 		self.assertEqual(response.context['form'].initial['text'], 'update text')
+
