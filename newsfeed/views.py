@@ -1,7 +1,7 @@
 from functools import reduce
 
 
-from django.shortcuts import render
+from django.shortcuts import render, Http404
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import DeleteView

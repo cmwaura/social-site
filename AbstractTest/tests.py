@@ -3,15 +3,14 @@ from notes.models import NoteBook
 
 
 class SetUpTestMixin(object):
-	obj = NoteBook
-	
+	model_klass=NoteBook
 	@classmethod
 	def setup_test_model_klass(cls, obj=None):
 		# super(NewsFeedCreateFormTest, self).setup_test_model_klass(*args)
 		# obj = NewsFeed
 		if obj is None:
-			obj = cls.obj
-		return obj
+			obj = cls.model_klass
+			return obj
 
 	def setUp(self, *args, **kwargs):		
 		self.user = User.objects.create_user(username="pete", email="pete@project.com", password="password")

@@ -66,31 +66,32 @@ class NewsFeedCreateTestView(SetUpTestMixin, TestCase):
 		
 		self.assertEqual(form.is_valid(), True)
 		r = self.client.post(reverse('newsfeed:create-view'), data)
-		print(response.context['form'].errors)
+		
 		# now lets retrieve our objects to see whether we have created them
-		print(r.content)
+		
 		feed = NewsFeed.objects.order_by('-timestamp').first()
-		print(feed)
-		print(NewsFeed.objects.all())
+		
 		# see if it contains the new title from data['newsfeed']=test
 		
 		self.assertEqual(feed.newsfeed, 'test')
 
 class NewsFeedDeleteTestView(SetUpTestMixin, TestCase):
-	
-	obj = NoteBook
 
-	@classmethod
-	def setup_test_model_klass(self, cls, obj=None, *args):
-		super(NewsFeedCreateFormTest, self).setup_test_model_klass(cls, *args)
-		
+	# obj = NewsFeed
+	# def setup_test_model_klass(cls, obj=None):
+	# 	super(NewsFeedDeleteTestView, cls).setup_test_model_klass(*args, **kwargs)
 	
+	def setUp(self, *args, **kwargs):
+		super(NewsFeedDeleteTestView, self).setUp(*args, **kwargs)
+		
+		self.single_newsfeed = NewsFeed.objects.create(newsfeed="Single entry", submitter=self.get_user)
+		
 
 	def test_get_delete_request(self):
 
-		note = self.single_notepad
+		newsfeed = self.single_newsfeed
 		self.client_login()
-		response = self.client.get(reverse('newsfeed:delete-view', args=[note.slug]))
+		response = self.client.get(reverse('newsfeed:delete-view', args=[newsfeed.pk]))
 		self.assertContains(response, 'are you sure you want to delete')
 
 	def test_http404_getobject_failure(self):
@@ -98,13 +99,13 @@ class NewsFeedDeleteTestView(SetUpTestMixin, TestCase):
 		testing to make sure that if the client is not logged  and the client is not the submitter of the 
 		article, we receive back a http 404 error
 		'''
-		note = self.single_notepad
-		response = self.client.get(reverse('newsfeed:delete-view', args=[note.slug]), follow=True)
+		newsfeed = self.single_newsfeed
+		response = self.client.get(reverse('newsfeed:delete-view', args=[newsfeed.pk]), follow=True)
 		self.assertEqual(response.status_code, 404)
 
 
 	def test_post_delete_request(self):
-		note = self.single_notepad
+		newsfeed = self.single_newsfeed
 		self.client_login()
-		post_response = self.client.post(reverse('newsfeed:delete-view', args=[note.slug]), follow=True)
-		self.assertRedirects(post_response, reverse('newsfeed:home'), status_code=302)
+		post_response = self.client.post(reverse('newsfeed:delete-view', args=[newsfeed.pk]), follow=True)
+		self.assertRedirects(post_response, reverse('feeds'), status_code=302)
