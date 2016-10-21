@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load comments hitcount_tags %}
+{% load comments hitcount_tags i18n %}
 {% load crispy_forms_tags %}
 {% block styles %}
 <style>
 .technology-left {
 	width: 70%;
-	border-right: thin solid #a1a1a1;
-	margin-top: -22px;
-	/*border-radius: 10px !important;
-	box-shadow: 10px 10px 5px #888888;*/
+	
+	
 }
 .comment-bottom input[type="text"], .comment-bottom textarea {
 	background: none;
@@ -111,59 +109,57 @@
 			</div>
 		</div>
 		<!-- technology-right -->
-		<div class="col-md-3 technology-right-1">
+		<div class="col-md-3 technology-right-1">				
 				
-				<div class="blo-top1">
-					<div class="tech-btm">
-					{% if not request.user.is_authenticated and not "/accounts/login" in request.get_full_path %}
-					<h4 style="text-align:center;">Login </h4>
-					<hr>
-						<div class="blog-grids">
-							<!-- <div class="blog-grid-left">
-								<a href="singlepage.html"><img src="{% static 'img/6.jpg' %}" class="img-responsive" id="image-settings" alt=""/></a>
-							</div>
-							<div class="blog-grid-right">
-								
-								<h5><a href="singlepage.html">Name: {{notepage.submitter}}
-								</a></h5> -->
-							<form class="blog-grid-login" method="POST" action="{% url 'auth_login' %}?next={{request.path}}"> {% csrf_token %}
-								<div class="form-group">
-									<input type='text' class='form-control' name='username' placeholder='your username'/>
-								</div>
-								<div class='form-group'>
-          							<input type='password' class='form-control' name='password' placeholder='Password'/>
-          						</div>
-          						<button type="submit" class='btn btn-default'>Login</button>
-							</form>
-
-							</div>
-							<div class="clearfix"> </div>
-							{% endif %}
-					{% if request.user.is_authenticated %}
-					<h4 style="text-align:center;">About the Author </h4>
-					<hr>
-						<div class="blog-grids">
-							<div class="blog-grid-left">
-							{% if notepage.submitter.userprofile.picture %}
-								<a href="singlepage.html"><img src="{{ MEDIA_URL }}{{ notepage.submitter.userprofile.picture.url }}" class="img-responsive" id="image-settings" alt=""/></a>
-							{% else %}
-								<a href="singlepage.html"><img src="" class="img-responsive" id="image-settings" alt=""/></a>
-							{% endif %}		
-							</div>
-							<div class="blog-grid-right">
-								
-								<h5><a href="singlepage.html">Name: {{notepage.submitter}}
-
-								</a></h5>
-								<h5> Name: {{notepage.submitter.userprofile.first_name}} {{notepage.submitter.userprofile.last_name}}</h5>
-								<h5> JobTitle: {{notepage.submitter.userprofile.job_title}}</h5>
-							</div>
-							<div class="clearfix"> </div>
-					{% endif %}
 					
+				{% if  request.user.is_authenticated %}
+				<div class="panel panel-primary">	
+				
+					<div class="panel-header">
+						<h4 style="text-align:center;">About the Author </h4>
+						<hr>
+					</div>
+					<div class="panel-body">
+						<div class="blog-grid-left">
+						{% if notepage.submitter.userprofile.picture %}
+							<a href="singlepage.html"><img src="{{ MEDIA_URL }}{{ notepage.submitter.userprofile.picture.url }}" class="img-responsive" id="image-settings" alt=""/></a>
+						{% else %}
+							<a href="singlepage.html"><img src="" class="img-responsive" id="image-settings" alt=""/></a>
+						{% endif %}		
+						</div>
+						<div class="blog-grid-right">
+							
+							<h5><a href="singlepage.html">Name: {{notepage.submitter}}
+
+							</a></h5>
+							<h5> Name: {{notepage.submitter.userprofile.first_name}} {{notepage.submitter.userprofile.last_name}}</h5>
+							<h5> JobTitle: {{notepage.submitter.userprofile.job_title}}</h5>
 						</div>
 						
 					</div>
+				{% endif %}
+				{% if notepage.submitter.username == request.user.username %}
+					<div class="panel-footer">
+					<div class="blog-poast-info">
+							<ul>
+								
+								<li><i class="glyphicon glyphicon-calendar"> </i>{{ notepage.created_on }}</li>
+								{% get_comment_count for notes.notebook notepage.id as comment_count %}							
+								<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="{{notepage.get_absolute_url}}">{% if comment_count == 0 %} {% trans "no comments" %} {% elif comment_count == 1 %}{{comment_count}} {% trans " Comment" %} {% else %} {{comment_count}} Comments {% endif %}</a></li>
+								{# <li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li> #}
+								
+									<li><i class="glyphicon glyphicon-edit"> </i><a class="p-blog" href="{% url 'notes:update-view' slug=notepage.slug %}">Update Article </a></li>
+									<li><i class="glyphicon glyphicon-trash"> </i><a class="admin" href="{% url 'notes:delete-view' slug=notepage.slug %}">Delete Article </a></li>
+								
+							</ul>
+					</div>
+			</div>
+
+					
+				{% endif %}
+					
+						
+					
 				</div>
 			
 		</div>

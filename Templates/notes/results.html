@@ -1,52 +1,81 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block content %}
-{% include 'navbar-tabs.html' %}
+{% load static comments i18n %}
 
+{% block title %} {% trans "Search" %} | {{ query }}{% endblock %}
+{% block styles %}
 <style>
 	.results{
 		padding-left: 10px;
+		background-color: #fff;
 	}
 	.tc-ch{
 		padding:0;
 	}
-	.results-title a {
+	/*.results-title a {
 		color: #5E3448 !important;
+	}*/
+	.thumbnail{
+		padding:0;
 	}
 </style>
+{% endblock %}
+
+{% block content %}
+{% include 'navbar-tabs.html' %}
+
+
 <br>
 	<div class="container results">
 
-		<hgroup>
-		
-			<h3> Search Results: </h3>
-			<h4 class="lead"><strong class="text-danger">{{ total_count }}</strong> total results were found for the search for <strong class="text-danger">{{ query }}</strong></h4>
+		<hgroup>		
+			
+			<h4 class="lead" style="text-align:center">
+			{% trans "Found" %} 
+				<strong class="text-danger">{{ total_count }}</strong>
+				 {% trans "search results for the search:" %}
+				 <strong class="text-danger">{{ query }}</strong>
+			</h4>
 			
 		</hgroup>
 
 		{% if accounts %}
-			<h5> User results: {{account_count}} results </h5>
+			<h5> {% trans "User results:" %} {{account_count}} {% trans "results:" %} </h5>
 			<hr/>
 			<div class="row">
 				
 
 					{% for account in accounts %}
-					<div class="col-md-3">
-						{% if account.userprofile.picture %}
-						
-							<a href="#" title="{{ account.username }}" class="img-thumbnail">
-							<img src="{{ MEDIA_URL }}{{ account.userprofile.picture.url }}" alt="{{ account.username }}"/></a>	
-							<div class="glyphicon glyphicon-user"> 
-								<a href="{{ account.get_absolute_url }}">{{account.username}}</a>
+					<div class="col-md-2">
+					<div class="panel panel-default">
+						<div class="panel-header">
+						<div class="thumbnail">
+							{% if account.userprofile.picture %}
+							
+	           
+	               				<a href='{{ account.get_absolute_url }}'>
+										<div class='background_img_thumb' style="height:100px;background-image: url('{{ MEDIA_URL }}{{ account.userprofile.picture.url }}');"></div>
+								</a>
+	                
+							
+								
+							{% else %}
+								
+
+									
+	               				<a href='{{ account.get_absolute_url }}'>
+										<div class='background_img_thumb' style="height:100px;background-image: url('http://placehold.it/150X150');"></div>
+								</a>
+	            					
+	               
+									
+									
+							{% endif %}
 							</div>
-						{% else %}
-							<div class="profile-picture">
-								<img src="http://placehold.it/200X200" class="img-thumbnail" alt="">
-								<div class="glyphicon glyphicon-user"> 
-									<a href="{{ account.get_absolute_url }}">{{account.username}}</a>
-								</div>
 							</div>
-						{% endif %}
+						<div class="caption panel-body"> 
+								<a class="glyphicon glyphicon-user" href="{{ account.get_absolute_url }}"> {{ account.username }}</a>
+							</div>
+					</div>
 					</div>
 					{% cycle "" "" "</div><br/><hr/><div class='row'>" %}
 
@@ -60,35 +89,43 @@
 		{% if notes %}
 		<h4> Notes results: {{notes_count}} results </h4>
 			<br>
+			
 			<div class="row">
-			<ol>
-				{% for note in notes %}
+				<ol>
+					{% for note in notes %}
+						
+							<div class="tc-ch">
+							<li>						
+								<h3 class="results-title"><a href="{{notes.get_absolute_url}}"> {{note.title}}</a></h3>
+								<div class="expansion-content"><p>{{note.text|safe|truncatewords:30}}</p></div>
+								<div class="blog-poast-info">
+									<ul>
+										<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="{{note.submitter.get_absolute_url}}"> {{ note.submitter }} </a></li>
+
+										{% if note.tags.all.0 %}
+										<li><i class="fa fa-tag"> </i> {{note.tags.all.0}}</li>							
+										{% endif %}
+
+										<li><i class="glyphicon glyphicon-calendar"> </i>{{note.created_on}}</li>
+
+										{% get_comment_count for notes.notebook note.id as comment_count %}
+										<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="{{note.get_absolute_url}}">{{comment_count}} Comments </a></li>
+
+										{# <li><i class=" fa fa-clock-o"> </i><a class="admin" href="#">{{duration}}</a></li> #}
+										{% if note.submitter == request.user %}
+											<li><i class="glyphicon glyphicon-edit"> </i><a class="p-blog" href="{% url 'notes:update-view' slug=note.slug %}">Update Article </a></li>
+											<li><i class="glyphicon glyphicon-trash"> </i><a class="admin" href="{% url 'notes:delete-view' slug=note.slug %}">Delete Article </a></li>
+										{% endif %}
+									</ul>
+								</div>
+							</li>
+							<hr/>
+							</div>				
 					
-						<div class="tc-ch">
-						<li>						
-							<h3 class="results-title"><a href="{{notes.get_absolute_url}}">{{note.title}}</a></h3>
-							<div class="expansion-content"><p>{{note.text|safe|truncatewords:30}}</p></div>
-							<div class="blog-poast-info">
-								<ul>
-									<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="{{note.submitter.get_absolute_url}}"> {{ note.submitter }} </a></li>
-
-									{% if note.tags.all.0 %}
-									<li><i class="glyphicon glyphicon-calendar"> </i>{{note.tags.all.0}}</li>							
-									{% endif %}
-
-									<li><i class="glyphicon glyphicon-calendar"> </i>{{note.created_on}}</li>							
-									<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
-									<li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>
-								</ul>
-							</div>
-						</li>
-						<hr/>
-						</div>				
-				
-				{% endfor %}
-			</ol> 
+					{% endfor %}
+				</ol>				
 			</div>
-		
 		{% endif %}
 	</div>
+
 {% endblock %}

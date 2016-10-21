@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 {% load activity_tags %}
 
+{% block title %}
+{% if user.username == request.user.username %}
+	Your 
+{% else %}
+{{ user.username }} | 
+{% endif %}  Profile 
+{% endblock %}
+
 {% block styles %} 
 <style>
 /* Profile container */
 .profile {
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 /* Profile sidebar */
@@ -126,11 +134,22 @@
 
 
 {% block content %}
-
 {% include 'navbar-tabs.html' %}
 
 
 <div class="container">
+<div class="row">
+
+	{% if messages %}
+	<ul class="messages alert alert-success">
+	    {% for message in messages %}
+	    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
+</div%>
+<br>
     <div class="row profile">
 		<div class="col-md-3">
 			<div class="profile-sidebar">
@@ -186,14 +205,14 @@
 							Overview </a>
 						</li>
 						<li>
-							<a href="{% url 'edit_profile' %}">
-							<i class="glyphicon glyphicon-edit"></i>
+							<a href="{% url 'edit_profile' slug=request.user.username %}">
+							<i class="fa fa-pencil fa-fw"></i>
 							Edit your profile </a>
 						</li>
 						<li>
-							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Tasks </a>
+							<a href="{% url 'imagestore:user' username=request.user.username %}">
+							<i class="fa fa-camera"></i>
+							Photos </a>
 						</li>
 						<li>
 							<a href="#">
@@ -235,12 +254,12 @@
 				<!-- END MENU -->
 			</div>
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-8">
 
             <div class="profile-activity">
             {# user feeds #}
 			{% for feed in user_feeds %}
-			
+				
 				<p class="row feeds">
 					<span class=" glyphicon {% if feed.verb ==  'created' %}
 						 glyphicon-ok-circle
@@ -251,6 +270,11 @@
 						{% else %}
 						glyphicon-ok
 						{% endif %}"></span>
+						{% if feed.actor.userprofile.picture %}
+							<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ feed.actor.userprofile.picture.url }}" height="42" width="42">
+						{% else %}
+							<img class="img-thumbnail" src="http://placehold.it/200X200" height="42" width="42">
+						{% endif %}
 						{% if feed.actor.get_absolute_url %}
 
 
@@ -263,8 +287,12 @@
 						{{feed.actor}} {{feed.verb}} {{feed.target}}
 						
 						{% endif %}
+						{% if feed.actor == request.user %}
+						<span class="delete-activity pull-right"><a href="{% url 'notes:stream_delete' pk=feed.pk %}"><i class="fa fa-trash"> delete</i></a></span>{% endif %}
 					</p>
-				<p class="timer"> </p>
+         
+				
+
 			
 			{% endfor %}
             </div>

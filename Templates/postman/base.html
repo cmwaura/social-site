@@ -42,15 +42,25 @@ ul {
 	color:#fff !important;
 	background-color: #33b5e5 !important;
 }
+li.active.pull-left.new-padding > a {
+	border-radius:0px !important;
+	border-bottom: 2px #00C851 solid !important;
+}
+
+.message-menu{
+	
+	margin:-5px;
+	padding-bottom: 5px;
+}
 
 
 </style>
 		<br>
         {# <!-- <div id="sidebar-messages"> #}
-        <div class="row">
+        <div class="row message-menu">
         <ul>
         
-        <li class="{% navactive request 'postman:write' %} pull-left new-padding "><a class="new-btn" href="{% url 'postman:write' %}">{% trans "Compose" %}</a></li>
+        <li class="{% navactive request 'postman:write' %} pull-left new-padding"><a class="new-btn" href="{% url 'postman:write' %}">{% trans "Compose" %}</a></li>
         <span id="postman_menu" class="nav nav-pills pull-right nav-pills-round">         	
 
             <li id="new-padding-inbox" class="{% navactive request 'postman:inbox' %}"><a class="new-btn-inbox" href="{% url 'postman:inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>

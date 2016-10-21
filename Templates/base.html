@@ -33,9 +33,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   {% block styles %}{% endblock %}
+  
   </head>
 
-  <body>
+  <body class="well" style="padding:70px!important;">
 
     {% include 'navbar.html' %}
     
@@ -61,10 +62,10 @@
 <!--     <script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>-->
     <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
     <script src="{% static 'js/jquery-1.6.1.min.js' %}"></script>
-
-
     <script src="{% static 'js/jquery.prettyPhoto.js' %}" type="text/javascript" charset="utf-8"></script>
+
 
     <script>
     $(document).ready(function(){
@@ -97,6 +98,7 @@
 
   });
 </script>
+
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>

@@ -1,5 +1,5 @@
       
-{% load base_extras %}
+{% load base_extras i18n %}
 
       <style>
       .nav {
@@ -50,6 +50,7 @@
       }
       .navbar-toggle:hover {
       background: transparent !important;
+
       }
 
       .icon-bar {
@@ -85,6 +86,23 @@
         border-bottom: 2px solid #FB6648;
         border-radius: 0px !important;
       }
+      #nav-tabs-contact:hover, #nav-tabs-feeds:hover{
+        border-bottom: 2px solid #00C851;
+        border-radius: 0px !important;
+      }
+
+      .navbar-default .navbar-nav > .active.envelope > a{
+  
+        background-color: #fff;
+      }
+      .fa-envelope-o:hover{
+        color: black;
+
+      }
+      .pad-dropdown {
+        padding-top: 5px;
+      }
+      
       </style>
       <!-- <div class="header-top"></div> -->
         <!-- Fixed navbar -->
@@ -101,28 +119,47 @@
           
         </div>
         <div id="navbar-second" class="navbar-collapse collapse">
-          <ul id="navbar-middle-tabs" class="nav navbar-nav">
+          <ul id="navbar-middle-tabs" class="nav navbar-nav pull-left">
             <li id="nav-tabs-feeds" class="{% navactive request 'feeds' %}"><a href="{% url 'feeds' %}">Home</a></li>
             <li class="{% navactive request 'notes:home' %}"><a href="{% url 'notes:home' %}">Notes</a></li>
             <li id="nav-tabs-contact"><a href="#contact">Contact</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gallery <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a href="{% url 'imagestore:create-album' %}">Create a Gallery</a></li>
+                <li><a href="{% url 'imagestore:upload' %}">Upload an image</a></li>
+                <li><a href="{% url 'imagestore:user' username=request.user.username %}">View your albums</a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">Nav header</li>
                 <li><a href="#">Separated link</a></li>
                 <li><a href="#">One more separated link</a></li>
               </ul>
+
             </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
             <li><a href="../navbar/">Default</a></li>
             <li><a href="../navbar-static-top/">Static top</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="{% navactive request 'postman:inbox' %} envelope"><a href="{% url 'postman:inbox' %}"><i class="fa fa-envelope-o fa-fw"></i></a></li>
+
             
-            <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li>
+            {# <li><a href="{% url 'profile' slug=request.user.username %}">welcome {{request.user.username}}</a></li> #}
+           <li><div class="dropdown pad-dropdown">
+  <a href="{% url 'profile' slug=request.user.username %}"><i class="fa fa-user fa-fw"></i>{% trans "Welcome" %}  {{ request.user.username }}</a>
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+  </a>
+  {% if user.username == request.user.username %}
+  <ul class="dropdown-menu">
+
+    <li><a href="{% url 'edit_profile' slug=request.user.username %}"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+    <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+    <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+    <li class="divider"></li>
+    <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
+  </ul>
+  {% endif %}
+</div></li>
             
           </ul>
         </div><!--/.nav-collapse -->

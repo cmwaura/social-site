@@ -26,17 +26,19 @@ from accounts.views import base_tester
 from accounts.views import RegistrationActivation as activation_url
 
 from newsfeed.views import NewsFeedListView as feeds
-from notes.views import ActivityStreamDeleteView as stream_delete
 from notes.views import tag_page as tag_page
 from notes.views import search as search
 from ajax_select import urls as ajax_select_urls
 # # to be fixed 
 
+import notifications.urls
+
+   
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', feeds.as_view(), name='feeds'),
-    url(r'^users/edit-profile/$', user_edit.as_view(), name='edit_profile'), 
+    url(r'^users/edit-profile/(?P<slug>[\w-]+)/$', user_edit.as_view(), name='edit_profile'), 
     url(r'^users/(?P<slug>[\w-]+)/$', user_profile.as_view(), name="profile"),
     url(r'^activity/', include('actstream.urls')),  
     url(r'^summernote/', include('django_summernote.urls')),
@@ -45,12 +47,13 @@ urlpatterns = [
     url(r'^tag/(?P<tag>[\w-]+)/$', tag_page, name="tag_page"),
     url(r'^notes/', include('notes.urls', namespace='notes')),
     url(r'^newsfeed/', include('newsfeed.urls', namespace='newsfeed')),
-    url(r'feeds/delete/(?P<pk>\d+)/$', stream_delete.as_view(), name='stream_delete'),
     url(r'^gallery/', include('imagestore.urls', namespace='imagestore')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^messages/', include('postman.urls', namespace='postman')),
     url(r'^s/$', search, name='search'),
     url(r'^ajax_select/', include(ajax_select_urls)),
+    url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

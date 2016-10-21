@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% block title %}{{request.user}} | Home {% endblock %}
 {% block styles %}
 <style>
 hr {
@@ -24,18 +25,19 @@ hr {
 	float:right !important;
 
 }
-.input-group{
+#status-input{
 	padding-right: 15px !important;
+	padding-top: 15px;
 }
 #characters {
 	float: right;
 }
-#toggle-feeds{
+/*#toggle-feeds{
 	border-left:;
 }
 #id{
 	margin-left: 20px;
-}
+}*/
 .toggler{
 
 	color: #20457C;
@@ -68,6 +70,10 @@ hr {
 .fa-toggle-on{
 	color: #5E3448 !important;
 }
+#follower-feeds-container{
+	background:#fff;
+}
+
 </style>
 
 {% endblock %}
@@ -75,7 +81,7 @@ hr {
 {% include 'navbar-tabs.html' %}
 <br>
 
-<div class="container">
+<div id="follower-feeds-container" class="container">
  <div class="drop-actions">
 
      	<a class="toggler" href="javascript:toggleDiv('toggle-feeds');">
@@ -84,10 +90,10 @@ hr {
 	<div class="row">
 		<div  class="col-xs-10 col-md-6 col-md-offset-3">
 	<form class='form-group row' method="POST" action="{% url 'newsfeed:create-view' %}">{%csrf_token %}          		
-			    <div class="input-group">
+			    <div id="status-input" class="input-group">
 			      <input type="text" class="form-control"  name='newsfeed' placeholder="what's on your mind.. 150 chars max">
 
-			      <span class="input-group-btn">
+			      <span id="feed-input-button" class="input-group-btn">
 			        <button class="btn btn-default" type="submit">Save!</button>
 			      </span>
 			      <span id="characters"></span>

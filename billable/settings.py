@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'postman',
     'mptt',
     'ajax_select',
+    'notifications',
     # developer assistance apps
     'django_extensions',
     #developer created apps
@@ -216,7 +217,6 @@ SUMMERNOTE_CONFIG = {
 # django activity stream settings
 
 # ACTSTREAM_SETTINGS = {
-#     'MANAGER': 'billable.managers.MyActionManager',
 #     'FETCH_RELATIONS': True,
 #     'USE_JSONFIELD': True,
     
@@ -286,7 +286,7 @@ POSTMAN_DISABLE_USER_EMAILING = True  # default is False
 POSTMAN_AUTO_MODERATE_AS = True  # default is None
 POSTMAN_SHOW_USER_AS = 'get_full_name'  # default is None
 POSTMAN_QUICKREPLY_QUOTE_BODY = True  # default is False
-POSTMAN_NOTIFIER_APP = None  # default is 'notification'
+POSTMAN_NOTIFIER_APP = 'notification'  # default is 'notification'
 POSTMAN_MAILER_APP = None  # default is 'mailer'
 
 POSTMAN_AUTOCOMPLETER_APP = {

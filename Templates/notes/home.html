@@ -1,6 +1,6 @@
 
 {% extends 'base.html' %}
-{% load static comments %}
+{% load static comments i18n %}
 {% block title %} Articles {% endblock %}
 {% block styles %}
 <style>
@@ -34,6 +34,7 @@
 	line-height: 1.8em;
 	margin:0;
 }
+
 </style>
 
 {% endblock %}
@@ -66,14 +67,15 @@
 					{% endif %}
 					{% endif %}
 					<h3><a href="{{notes.get_absolute_url}}">{{notes.title}}</a></h3>
+					<br>
 						<p>{{notes.text|truncatewords_html:60|safe}}</p>
 				
 						<div class="blog-poast-info">
 							<ul>
 								<li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="{{notes.submitter.user.get_absolute_url}}"> {{ notes.submitter }} </a></li>
-								<li><i class="glyphicon glyphicon-calendar"> </i>{{notes.created_on}}</li>
+								<li><i class="glyphicon glyphicon-calendar"> </i>{{ notes.created_on }}</li>
 								{% get_comment_count for notes.notebook notes.id as comment_count %}							
-								<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="{{notes.get_absolute_url}}">{{comment_count}} Comments </a></li>
+								<li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="{{notes.get_absolute_url}}">{% if comment_count == 0 %} {% trans "no comments" %} {% elif comment_count == 1 %}{{comment_count}} {% trans " Comment" %} {% else %} {{comment_count}} Comments {% endif %}</a></li>
 								{# <li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li> #}
 								{% if notes.submitter == request.user %}
 									<li><i class="glyphicon glyphicon-edit"> </i><a class="p-blog" href="{% url 'notes:update-view' slug=notes.slug %}">Update Article </a></li>
