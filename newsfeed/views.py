@@ -27,7 +27,7 @@ class NewsFeedCreateView(NewsFeedMixin,CreateView):
 
 	
 	form_class = NewsFeedForm
-	template_name = None
+	template_name = 'notes/forms.html'
 
 	def form_valid(self, form):
 

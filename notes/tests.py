@@ -7,6 +7,7 @@ from .models import NoteBook
 from .forms import NotebookForm, NotebookUpdateForm
 
 from actstream.models import Action, actor_stream
+from AbstractTest.tests import SetUpTestMixin
 
 # Create your tests here.
 
@@ -20,17 +21,6 @@ from actstream.models import Action, actor_stream
 # 		response = self.client.get("/notes/home/")
 # 		self.assertEqual(response.status_code, 200)
 
-class SetUpTestMixin(object):
-
-	def setUp(self, *args, **kwargs):
-		self.factory = RequestFactory()
-		self.user = User.objects.create_user(username="pete", email="pete@project.com", password="password")
-		self.get_user = User.objects.get(username="pete")
-		self.single_notepad = NoteBook.objects.create(title="Single entry", submitter=self.get_user, slug= "single-entry",\
-			text="this is what we will use for our single plage test")
-
-	def client_login(self):
-		return self.client.login(username='pete', password='password')
 
 # class NoteBookModelsTestCase(SetUpTestMixin, TestCase):
 # 	'''
@@ -53,8 +43,10 @@ class SetUpTestMixin(object):
 
 # class NoteBookHomeClientViewTest(SetUpTestMixin, TestCase):
 
+
 # 	def setUp(self, *args, **kwargs):
 # 		super(NoteBookHomeClientViewTest, self).setUp(*args, **kwargs)
+# 		# test_klass = self.setup_test_model_klass(obj=NoteBook)
 
 # 	def test_one_blog(self):
 # 		'''
@@ -200,8 +192,13 @@ class SetUpTestMixin(object):
 # 		self.assertEqual(blog.text, data['text'])
 
 class NoteBookDeleteTestView(SetUpTestMixin, TestCase):
+	obj = NoteBook
 
-	
+	def setUp(self, *args, **kwargs):
+		super(NoteBookDeleteTestView, self).setUp(*args, **kwargs)
+
+		self.single_notepad = self.test_klass.objects.create(title="Single entry", submitter=self.get_user, slug= "single-entry",\
+			text="this is what we will use for our single plage test")
 
 	def test_get_delete_request(self):
 
