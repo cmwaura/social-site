@@ -19,6 +19,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from . import OPTION_MESSAGES
 from .query import PostmanQuery
 from .utils import email_visitor, notify_user
+from notifications.signals import notify
 
 # moderation constants
 STATUS_PENDING = 'p'
@@ -50,7 +51,11 @@ def setup():
         's': 'subject',  # as 'subject'
         'd': 'sent_at',  # as 'date'
     })
-
+def send(users=[], label='', extra_context={}):
+    if label == 'postnam_message':
+        msg = extra_context['pm_message']
+        user = User.objects.get(pk=msg.sender_id)
+        notify.send(user, recipient=users[0], verb='New message', description=msg.subject)
 
 def get_order_by(query_dict):
     """
