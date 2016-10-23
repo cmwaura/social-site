@@ -3,18 +3,21 @@ db.sqlite3
 *.db
 
 #python files
-
 config.py
 todo.txt
 
-#files and folders
 
+#files 
 *.pyc
 *.jpg
 *.png
 *.jpeg
 *.min.js
 *.sql
+.coverage
+
+
+# folders
 __pycache__
 migrations
 staticfiles

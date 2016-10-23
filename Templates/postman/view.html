@@ -28,6 +28,12 @@
     margin: 2px auto !important; 
     
 }
+#chat-dropdown-chev{
+	margin-top: -17px;
+}
+.chat-controls{
+	cursor:pointer;
+}
 
 </style>
 {% endblock %}
@@ -36,13 +42,35 @@
 <br>
 <br>
 <div class="container">
-	<div class="col-md-8 col-xs-8 col-md-offset-1 col-xs-offset-1">
+	<div class="col-md-8 col-xs-8 col-md-offset-0 col-xs-offset-0">
 	
 		<div id="postman">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 
-				<h1 class="panel-heading">{% if pm_messages|length > 1 %}{% trans "Conversation" %}{% else %}{% trans "Message" %}{% endif %}
-				</h1>
+				<div class="panel-heading">
+					<span>
+						<h4><i class="fa fa-comment"> {% if pm_messages|length > 1 %}{% trans "Conversation" %}{% else %}{% trans "Message" %}{% endif %}</i></h4>
+					</span>
+					<div id="chat-dropdown-chev"class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <ul class="dropdown-menu slidedown">
+                            <li><a class="chat-controls" onclick="chatReload()"><span class="glyphicon glyphicon-refresh">
+                            </span>Refresh</a></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-ok-sign">
+                            </span>Available</a></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-remove">
+                            </span>Busy</a></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-time"></span>
+                                Away</a></li>
+                            
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-off"></span>
+                                Sign Out</a></li>
+                         
+                        </ul>
+	                </div>
+	                    </div>
 				{% for message in pm_messages %}
 					{% if forloop.first %}
 					<div id="conversation-controls">
