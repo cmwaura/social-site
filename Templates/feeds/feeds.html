@@ -2,81 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% block title %}{{request.user}} | Home {% endblock %}
-{% block styles %}
-<style>
-hr {
-	margin-top: 10px;
-	margin-bottom: 20px;
-	border: 0;
-	border-top: 1px solid #eee;
-}	
-.timer{
-	float: right;
-	display: block;
-	padding:10px;
-}
-.status{
-	
-	display: block;
-	padding-left: 55px;
 
-}
-.delete-feed{
-	float:right !important;
-
-}
-#status-input{
-	padding-right: 15px !important;
-	padding-top: 15px;
-}
-#characters {
-	float: right;
-}
-/*#toggle-feeds{
-	border-left:;
-}
-#id{
-	margin-left: 20px;
-}*/
-.toggler{
-
-	color: #20457C;
-	padding: 5px 10px;
-	float: right;
-
-}
-#toggle-feeds {
-	
-	border: solid thin #20457C;
-}
-#toggle-feeds > h5{
-	text-align: center;
-	margin-top: 10px;
-	margin-bottom: -9px;
-
-}
-#toggle-feeds .title-line-breaker{
-	margin-top: 20px;
-	margin-bottom: 20px;
-	border: 0;
-	border-top: 1px solid #5E3448;
-}
-/*fa fa css*/
-.row.feeds {
-	padding-left: 10px;
-	padding-top: 3px;
-}
-
-.fa-toggle-on{
-	color: #5E3448 !important;
-}
-#follower-feeds-container{
-	background:#fff;
-}
-
-</style>
-
-{% endblock %}
 {% block content %}
 {% include 'navbar-tabs.html' %}
 <br>
@@ -155,7 +81,7 @@ hr {
 						</p>
 
 					<p class="timer"> </p>
-					<hr>
+					<hr class="hr-divide">
 
 					
 

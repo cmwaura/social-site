@@ -3,39 +3,7 @@
 {% load static comments i18n %}
 {% block title %} Articles {% endblock %}
 {% block styles %}
-<style>
-.banner {
-	padding: 10em 0 0;
-	text-align: center;
-	display: block;
-	margin: 0 auto;
-	min-height: 400px;
-	width: 1150px;
-	margin-top:10px;
-}
-.tc-ch .expansion-content {
-    display: none;
-    padding : 5px;
-    
-}
-.tc-ch .expansion {
-	background-color: yellow;
-	cursor:pointer;
-}
-.tc-ch h3 {
-	margin: 0.5em 0 0;
-	font-size: 1.7em;
-	padding-bottom: -5px;
-	margin-bottom: -5px;
-}
-.tc-ch p {
-	color: #777;
-	font-size: 0.875em;
-	line-height: 1.8em;
-	margin:0;
-}
 
-</style>
 
 {% endblock %}
 {% block content %}	<!--start-main-->
@@ -49,7 +17,7 @@
 <!-- technology -->
 <div class="technology">
 	<div class="container">
-		<div class="col-md-9 technology-left">
+		<div class="col-md-9 col-md-offset-1 technology-left">
 		<div class="tech-no">
 			<!-- technology-top -->
 			{% for notes in notebook_list %}
@@ -86,95 +54,10 @@
 			</div>
 			{% endfor %}
 			<div class="clearfix"></div>
-			<!-- technology-top -->
-			<!-- technology-top -->
 			
-			<!-- technology-top -->
 			</div>
 		</div>
-		<!-- technology-right -->
-		<div class="col-md-3 technology-right">
-				<div class="blo-top">
-					<div class="tech-btm">
-					<img src="{% static 'img/banner1.jpg' %}" class="img-responsive" alt=""/>
-					</div>
-				</div>
-				<div class="blo-top">
-					<div class="tech-btm">
-					<h4>Sign up to our newsletter</h4>
-					<p>Pellentesque dui, non felis. Maecenas male</p>
-						<div class="name">
-							<form>
-								<input type="text" placeholder="Email" required="">
-							</form>
-						</div>	
-						<div class="button">
-							<form>
-								<input type="submit" value="Subscribe">
-							</form>
-						</div>
-							<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="blo-top1">
-					<div class="tech-btm">
-					<h4>Top stories of the week </h4>
-						<div class="blog-grids">
-							<div class="blog-grid-left">
-								<a href="singlepage.html"><img src="images/6.jpg" class="img-responsive" alt=""/></a>
-							</div>
-							<div class="blog-grid-right">
-								
-								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="blog-grids">
-							<div class="blog-grid-left">
-								<a href="singlepage.html"><img src="images/7.jpg" class="img-responsive" alt=""/></a>
-							</div>
-							<div class="blog-grid-right">
-								
-								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="blog-grids">
-							<div class="blog-grid-left">
-								<a href="singlepage.html"><img src="images/11.jpg" class="img-responsive" alt=""/></a>
-							</div>
-							<div class="blog-grid-right">
-								
-								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="blog-grids">
-							<div class="blog-grid-left">
-								<a href="singlepage.html"><img src="images/9.jpg" class="img-responsive" alt=""/></a>
-							</div>
-							<div class="blog-grid-right">
-								
-								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="blog-grids">
-							<div class="blog-grid-left">
-								<a href="singlepage.html"><img src="images/10.jpg" class="img-responsive" alt=""/></a>
-							</div>
-							<div class="blog-grid-right">
-								
-								<h5><a href="singlepage.html">Pellentesque dui, non felis. Maecenas male</a> </h5>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-			
-		</div>
-		<div class="clearfix"></div>
-		<!-- technology-right -->
+		
 	</div>
 </div>
 {% endblock %}
