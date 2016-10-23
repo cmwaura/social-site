@@ -8,13 +8,13 @@
 		padding-left: 10px;
 		background-color: #fff;
 	}
-	.tc-ch{
+	.search{
 		padding:0;
 	}
 	/*.results-title a {
 		color: #5E3448 !important;
 	}*/
-	.thumbnail{
+	#search-thumbnail{
 		padding:0;
 	}
 </style>
@@ -48,7 +48,7 @@
 					<div class="col-md-2">
 					<div class="panel panel-default">
 						<div class="panel-header">
-						<div class="thumbnail">
+						<div id="search-thumbnail" class="thumbnail">
 							{% if account.userprofile.picture %}
 							
 	           
@@ -94,7 +94,7 @@
 				<ol>
 					{% for note in notes %}
 						
-							<div class="tc-ch">
+							<div class="tc-ch search">
 							<li>						
 								<h3 class="results-title"><a href="{{notes.get_absolute_url}}"> {{note.title}}</a></h3>
 								<div class="expansion-content"><p>{{note.text|safe|truncatewords:30}}</p></div>

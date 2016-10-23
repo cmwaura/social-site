@@ -335,3 +335,20 @@ hr .hr-divide {
         padding-top: 5px;
       }
       /*end navbar-tabs*/
+
+      /* search results */
+      	.results{
+		padding-left: 10px;
+		background-color: #fff;
+		}
+		.search{
+			padding:0;
+		}
+		/*.results-title a {
+			color: #5E3448 !important;
+		}*/
+		#search-thumbnail{
+			padding:0;
+		}
+
+		/*end search results*/
