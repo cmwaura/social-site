@@ -45,6 +45,7 @@
 		                {% if not forloop.last %},{% endif %}
 	                {% endfor %} 
                 </div>
+
 				<hr/>
 				<div class="comment-top">
 					
@@ -74,16 +75,16 @@
 				
 					
 
-					<div class="comment">
+					<div class="comment-label">
 						<h2>Comment</h2>
 						{% get_comment_list for notepage as comment_list %}
 
 							{% for comment in comment_list %}
 						
-								<div class="media-body">
-									  <h4 class="media-heading"><a href="{{comment.user.get_absolute_url}}">{{ comment.name }}</a></h4>
-									  <small> {{ comment.submit_date }} </small>
-									  <p style="color:black;">{{ comment.comment }}</p><br><hr>
+								<div class="comment-body">
+									  <h5 class="media-heading"><a href="{{comment.user.get_absolute_url}}">{{ comment.name }}</a>
+									  <span class="pull-right"><small> {{ comment.submit_date }} </small></span></h5>
+									  <p style="color:black; font-size: 0.75em;">{{ comment.comment }}</p><hr>
 
 								  <!-- Nested media object -->
 								</div>

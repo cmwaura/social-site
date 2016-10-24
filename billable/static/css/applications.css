@@ -211,11 +211,11 @@ hr .hr-divide {
   padding-top: 8px !important;
   padding-bottom: 0 !important;
   height: 40px;
-  color: #3B3A35 !important;
+  color: #FFF !important;
 }
 
 #navbar-id-default {
-  background-color: #ECDFBD;
+  background-color: #20457C;
   
   margin-bottom: 0px;
 }
@@ -233,8 +233,8 @@ hr .hr-divide {
 /* end navbar-main*/
 
 /*begin navbar-tabs*/
-
-.nav {
+/*
+	.nav {
         margin-top: -5px;
       }
       .nav-tabs .inactive a {
@@ -275,7 +275,7 @@ hr .hr-divide {
       [data-target="#navbar-second"] {
         float:left;
       }
-      /* Remember to change the actual bootstrap.css and reminify it*/
+      
       #navbar-middle >.navbar-toggle {
       border: none;
       background: transparent !important;
@@ -333,7 +333,7 @@ hr .hr-divide {
       }
       .pad-dropdown {
         padding-top: 5px;
-      }
+      }*/
       /*end navbar-tabs*/
 
       /* search results */

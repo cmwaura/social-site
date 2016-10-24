@@ -24,7 +24,7 @@ from .config import SECRET_KEY
 
 SECRET_KEY = SECRET_KEY
 
-TESTING_DEBUG=False
+TESTING_DEBUG=True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,8 +90,8 @@ MIDDLEWARE_CLASSES = [
     # my middlewares
 
 ] 
-# if TESTING_DEBUG:
-#     MIDDLEWARE_CLASSES.append('notes.middleware.LoginRequiredMiddleware')
+if TESTING_DEBUG:
+    MIDDLEWARE_CLASSES.append('notes.middleware.LoginRequiredMiddleware')
 
 ROOT_URLCONF = 'billable.urls'
 
