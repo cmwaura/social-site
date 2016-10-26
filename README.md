@@ -9,11 +9,12 @@ This is the first basic launch as i add more features but as time goes by i plan
 To install
 ----------
 First create a folder that will hold the project:
+
     mkdir django-social
 
 Make a virtual environment:
 
-   virtualenv -p python3.4 .
+    virtualenv -p python3.4 .
    
 activate the environment:
 
@@ -34,7 +35,8 @@ run install requirements:
 run migrate:
     
     python manage.py migrate
-finally create your super user and run the server
+finally create your super user and run the server:
+
     python manage.py createsuperuser
     ........
     
