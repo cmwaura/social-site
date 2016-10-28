@@ -1,2 +1,0 @@
-Django Social-site
-===================
