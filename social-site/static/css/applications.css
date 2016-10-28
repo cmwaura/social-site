@@ -208,7 +208,6 @@ hr .hr-divide {
     min-height:39px !important
 }
 #navbar-nav > li > a, #navbar-brand {
-  padding-top: 8px !important;
   padding-bottom: 0 !important;
   height: 40px;
   color: #FFF !important;

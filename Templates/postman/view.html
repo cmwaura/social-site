@@ -13,12 +13,12 @@
 	border-top: solid thin #ddd;
 }
 #btn-pull-right {
-	margin-left: 90%;
+	
 	margin-top: -5px;
 }
-.pm_sender{
+/*.pm_sender{
 	margin-left: 10px;
-}
+}*/
 .pm_request_user_img{
 	margin-right: 10px;
 } 
@@ -42,7 +42,7 @@
 <br>
 <br>
 <div class="container">
-	<div class="col-md-8 col-xs-8 col-md-offset-0 col-xs-offset-0">
+	<div class="col-md-7 col-xs-7 col-md-offset-0 col-xs-offset-0">
 	
 		<div id="postman">
 			<div class="panel panel-primary">
@@ -51,52 +51,9 @@
 					<span>
 						<h4><i class="fa fa-comment"> {% if pm_messages|length > 1 %}{% trans "Conversation" %}{% else %}{% trans "Message" %}{% endif %}</i></h4>
 					</span>
-					<div id="chat-dropdown-chev"class="btn-group pull-right">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </button>
-                        <ul class="dropdown-menu slidedown">
-                            <li><a class="chat-controls" onclick="chatReload()"><span class="glyphicon glyphicon-refresh">
-                            </span>Refresh</a></li>
-                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-ok-sign">
-                            </span>Available</a></li>
-                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-remove">
-                            </span>Busy</a></li>
-                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-time"></span>
-                                Away</a></li>
-                            
-                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-off"></span>
-                                Sign Out</a></li>
-                         
-                        </ul>
-	                </div>
-	                    </div>
-				{% for message in pm_messages %}
-					{% if forloop.first %}
-					<div id="conversation-controls">
-						
-							<form id="conversation-controls-placement" class=""action="" method="post">{% csrf_token %}
-								<input type="hidden" {% if pm_messages|length > 1 and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} />
-								<a href="{{ next_url }}">{% trans "<< Back" %}</a>
-								<span id="pm_buttons">
-									<button class="btn btn-sm btn-danger" type="submit" onclick="this.form.action='{% url 'postman:delete' %}?next={{ next_url|urlencode }}'">
-										<i class="fa fa-trash">
-											{% trans "Delete" %}
-										</i>
-									</button>
-									{% if not archived %}
-										<button class="btn btn-sm btn-primary" type="submit" onclick="this.form.action='{% url 'postman:archive' %}?next={{ next_url|urlencode }}'">
-											<i class="fa fa-archive">
-											{% trans "Archive" %}
-											</i>
-										</button>
-									{% endif %}
-								</span>
-								
-							</form>
-						
-					</div>
-					{% endif %}
+					
+	            </div>
+				{% for message in pm_messages %}		
 			
 					<div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}">
 						<div class="panel-body">
@@ -115,7 +72,11 @@
 		                		            {% endif %}
 		                		        </span>
 		                		            <span class="pm_request_user_sender"><strong>sender{{ message.obfuscated_sender|or_me:user }}</strong></span>
+		                		            {% if forloop.first %}
 		                		            | <span class="pm_subject">Subject:{{ message.subject }}</span>
+		                		            {% else %}
+		                		             <span class="pm_subject">{{ message.subject }}</span>
+		                		            {% endif %}
 		                		        
 		                		    </div>
 		                		    <div class="col-md-4 col-xs-4">
@@ -132,14 +93,17 @@
 														<!-- not request user -->
 									<div class="row">
 
-										<div class="pm_obfuscated_sender">
+										<!--<div class="pm_obfuscated_sender ">-->
 											<div id="border-msg-column" class="col-md-8 col-xs-8">
 												<span class="pm_date"><i class="fa fa-clock-o"></i> {{ message.sent_at|date:"DATETIME_FORMAT"}}</span> |
-												<span class="pm_subject">Subject: {{ message.subject }}</span>
-											</div>
+											{% if forloop.first %}
+		                		            | <span class="pm_subject">Subject:{{ message.subject }}</span>
+		                		            {% else %}
+		                		             <span class="pm_subject">{{ message.subject }}</span>
+		                		            {% endif %}											</div>
 											
 											<div class="col-md-4 col-xs-4">
-												
+												<span class="pm_sender pull-right"><strong>Sender: {{ message.obfuscated_sender|or_me:user }}</strong></span> 
 
 												<span class="chat-img">
 													{% if message.sender.userprofile.picture %}
@@ -148,9 +112,10 @@
 				                		                <img class="img-thumbnail" src="http://placehold.it/50X50" alt="User Avatar"  />
 				                		           {% endif %}
 					                        	</span>
-					                        	<span class="pm_sender"><strong>Sender: {{ message.obfuscated_sender|or_me:user }}</strong></span> 
+	
+
 					                        </div>
-										</div>	
+										<!--</div>	-->
 										
 									</div>
 									
@@ -185,22 +150,83 @@
 						</div>
 
 					{% if forloop.last %}
-					<div class="panel-footer">
+						<div class="panel-footer">
 						
 							{% if reply_to_pk %}<hr />
 								<h2>{% trans 'Reply' %}</h2>
 									<form class="form-group" action="{% url 'postman:reply' reply_to_pk %}?next={{ next_url|urlencode }}" method="post">{% csrf_token %}
 										<div id="pm_reply">{{ form |crispy}}
-										<button id="btn-pull-right" class="btn btn-success"type="submit">{% trans 'Reply' %}</button></div>
+											<button id="btn-pull-right" class="btn btn-success"type="submit">{% trans 'Reply' %}</button>
+										</div>
 									</form>
 
-						{% endif %}
-					</div>
+							{% endif %}
+						</div>
 					{% endif %}
 					
+					</div>
 				{% endfor %}
 			</div>
-		</div>
+		</div>		
+	</div>
+
+	<div class="col-md-4 col-xs-4 col-md-offset-0 col-xs-offset-0">
+		{% for message in pm_messages %}
+			{% if forloop.last %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+				
+						<h5> participants </h5>
+					</div>
+						<div class="panel-body">
+						<div class="row">
+						<a href="{{ request.user.get_absolute_url }}">
+							<span>
+								{% if request.user.userprofile.picture %}
+		                    		<img class="img-thumbnail" src="{{ MEDIA_URL}}{{ request.user.userprofile.picture.url }}" alt="User Avatar" max-height="60" width="60"  />
+		                    	{% else %}
+		    		                <img class="img-thumbnail" src="http://placehold.it/50X50" alt="User Avatar"  />
+		    		           {% endif %}
+		                	</span>
+							{{ request.user }}</a>
+						</div>
+						<div class="row">
+						{% if  message.sender != request.user %}
+						<span>
+							{% if message.sender.userprofile.picture %}
+								<img class="img-thumbnail" src="{{ MEDIA_URL}}{{ message.sender.userprofile.picture.url }}" alt="User Avatar" max-height="60" width="60"  />
+							{% else %}
+						        <img class="img-thumbnail" src="http://placehold.it/50X50" alt="User Avatar"  />
+						   {% endif %}
+						</span>
+						
+						{{message.sender}}, 
+						{% elif message.recipient != request.user %}
+						<span>
+							<a href="{{ message.recipient.get_absolute_url }}">
+
+							{% if message.recipient.userprofile.picture %}
+								<img class="img-thumbnail" src="{{ MEDIA_URL }}{{ message.recipient.userprofile.picture.url }}" alt="User Avatar" max-height="60" width="60"  />
+							{% else %}
+						        <img class="img-thumbnail" src="http://placehold.it/50X50" alt="User Avatar"  />
+						   {% endif %}
+						   
+						</span>
+						{{ message.recipient}}</a>
+						{% else %}
+						{{request.user}}
+
+
+						{% endif %}
+						</div>
+						</div>
+
+					
+
+				</div>
+			{% endif  %}
+		{% endfor %}
 	</div>
 </div>
+
 {% endblock %}
