@@ -3,7 +3,9 @@ from notes.models import NoteBook
 
 
 class SetUpTestMixin(object):
+	
 	model_klass=NoteBook
+
 	@classmethod
 	def setup_test_model_klass(cls, obj=None):
 		# super(NewsFeedCreateFormTest, self).setup_test_model_klass(*args)

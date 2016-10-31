@@ -185,14 +185,14 @@
           <li>
            <div class="dropdown pad-dropdown">
            
-            <a href="{% url 'profile' slug=request.user.username %}"><i class="fa fa-user fa-fw"></i>{% trans "Welcome" %}  {{ request.user.username }}</a>
+            <a href="{% url 'user:profile' slug=request.user.username %}"><i class="fa fa-user fa-fw"></i>{% trans "Welcome" %}  {{ request.user.username }}</a>
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
               <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
             </a>
   {% if user.username == request.user.username %}
   <ul class="dropdown-menu">
 
-    <li><a href="{% url 'edit_profile' slug=request.user.username %}"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+    <li><a href="{% url 'user:edit_profile' slug=request.user.username %}"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
     <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
     <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
     <li class="divider"></li>

@@ -19,12 +19,6 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 
 from django.contrib import admin
-
-from accounts.views import UserProfileFormView as user_edit
-from accounts.views import UserProfileDetailView as user_profile
-from accounts.views import base_tester
-from accounts.views import RegistrationActivation as activation_url
-
 from newsfeed.views import NewsFeedListView as feeds
 from notes.views import tag_page as tag_page
 from notes.views import search as search
@@ -38,8 +32,8 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', feeds.as_view(), name='feeds'),
-    url(r'^users/edit-profile/(?P<slug>[\w-]+)/$', user_edit.as_view(), name='edit_profile'), 
-    url(r'^users/(?P<slug>[\w-]+)/$', user_profile.as_view(), name="profile"),
+    url(r'^users/', include('accounts.urls', namespace='user')),
+    
     url(r'^activity/', include('actstream.urls')),  
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
