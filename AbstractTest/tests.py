@@ -16,9 +16,7 @@ class SetUpTestMixin(object):
 
 	def setUp(self, *args, **kwargs):		
 		self.user = User.objects.create_user(username="pete", email="pete@project.com", password="password")
-		
 		self.get_user = User.objects.get(username="pete")
-
 		self.test_klass = SetUpTestMixin.setup_test_model_klass()
 		
 
