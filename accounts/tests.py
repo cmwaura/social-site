@@ -91,27 +91,28 @@ class UserProfileFormTest(SetUpTestMixin, TestCase):
 		image_path = self.PROJECT_ROOT + "/social-site/media/media/profileImg/beach_hvjY1ha.jpeg"
 
 		picture = SimpleUploadedFile(name='beach_hvjY1ha.jpeg', content=open(image_path, 'rb').read(), content_type='image/jpeg')
-		form =  response.context['form']
-		data = form.initial
-
-		new_data = UserProfileForm({
+		old_form =  response.context['form']
+		data = old_form.initial
+		print(data)
+		form = UserProfileForm({
 				'first_name': 'pete',		
 				'last_name': 'Yeaman',
 				'job_title':'programmer'
 		}, files={'picture' : picture})
+		print("new data", form)
+		print(self.assertEqual(form.is_valid(), True))
+		
+		if form.is_valid():
+			object = form.save(commit=False)
+			print (object)
+			object.user = User.objects.get(username="pete")
 
-		self.assertTrue(new_data.is_valid())
-		new_data.save()
-		# if new_data.is_valid():
-		# 	object = new_data.save(commit=False)
-
-		# 	object.user = self.get_user
-		# 	profile = object.save()
-		# 	print(profile)
+			profile = form.save()
+			print(profile)
 			
 		self.assertEqual(profile.first_name,'pete')
 		
-		self.assertEqual(profile.text, 'Yeaman')
+		self.assertEqual(profile.last_name, 'Yeaman')
 	
 	# def test_blank_data(self):
 	# 	form = UserProfileForm({})
