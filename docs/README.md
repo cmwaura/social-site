@@ -62,3 +62,30 @@ Important API's That the Package Utilizes.
 
 3) Django Imagestore for handling images.
 
+4) Django Postman - for messages between users
+
+Apps included for free in this package.
+----------------------------------------
+
+This package comes with the standard social network utilities.
+The utilities include:
+
+    newsfeed:
+        1) A newsfeed form that has 150 chars limit 
+        2) A newsfeed page shared between the users and their followers
+        3) The ability for a user to delete and update their newsfeed sections
+    Blog/notes section:
+        1) The ability for a user to share their thoughts with more than 140 chars
+        2) A WYSGIWYG editor that enables a user to use markdown in their blog. Powered by Summernote
+        3) Versatility with image (markdown support)
+        4) Ability to see how many people have read your article based on the number of views counted.
+        5) A panel section for the author of an article that gives you more control of what you want to do with the article. I.e Update an error, Delete the article, Use a different tag etc
+    Comments app:
+        1) User has the ability to comment on an article that they like
+    Activity Feeds:
+        1) Updates a user activity within the app without the need to be overly intrusive.
+        2) Ability for the user to control what is updated to the app and what is not.
+
+    
+
+
