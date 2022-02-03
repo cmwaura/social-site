@@ -1,7 +1,7 @@
 coverage==4.2
 Cython==0.24.1
 decorator==4.0.10
-Django==1.9.3
+Django==2.2.27
 django-activity-stream==0.6.3
 django-ajax-selects==1.5.1
 django-autocomplete-light==3.2.0
