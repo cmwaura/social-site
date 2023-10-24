@@ -11,7 +11,7 @@ django-debug-toolbar==1.6
 django-extensions==1.7.4
 django-filter==0.14.0
 django-friendship==1.5.0
-django-grappelli==2.8.2
+django-grappelli==2.15.2
 django-hitcount==1.2.2
 django-jsonfield==1.0.1
 django-model-utils==2.6
