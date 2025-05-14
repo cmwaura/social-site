@@ -1,7 +1,7 @@
 coverage==4.2
 Cython==0.24.1
 decorator==4.0.10
-Django==1.9.3
+Django==4.2.21
 django-activity-stream==0.6.3
 django-ajax-selects==1.5.1
 django-autocomplete-light==3.2.0
@@ -9,7 +9,7 @@ django-contrib-comments==1.7.3
 django-crispy-forms==1.6.0
 django-debug-toolbar==1.6
 django-extensions==1.7.4
-django-filter==0.14.0
+django-filter==2.4.0
 django-friendship==1.5.0
 django-grappelli==2.8.2
 django-hitcount==1.2.2
