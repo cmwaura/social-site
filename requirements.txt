@@ -17,7 +17,7 @@ django-jsonfield==1.0.1
 django-model-utils==2.6
 django-mptt==0.8.6
 django-notifications-hq==1.2
-django-photologue==3.6
+django-photologue==3.16
 django-registration==2.1.2
 django-sortedm2m==1.3.2
 django-summernote==0.8.5
